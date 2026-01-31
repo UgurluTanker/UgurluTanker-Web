@@ -8,6 +8,8 @@ import { client } from "@/sanity/lib/client"
 import { SITE_SETTINGS_QUERY, SERVICES_QUERY } from "@/sanity/lib/queries"
 import { SiteSettings, Service } from "@/types/sanity"
 
+export const dynamic = "force-dynamic";
+
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {

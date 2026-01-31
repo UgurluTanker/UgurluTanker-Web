@@ -10,6 +10,8 @@ import { HOMEPAGE_QUERY, SITE_SETTINGS_QUERY, SERVICES_QUERY } from "@/sanity/li
 import { urlFor } from "@/sanity/lib/image"
 import { SiteSettings, HomepageData, Service } from "@/types/sanity"
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const [data, settings, services] = await Promise.all([
     client.fetch<HomepageData>(HOMEPAGE_QUERY),

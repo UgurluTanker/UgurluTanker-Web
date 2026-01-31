@@ -5,6 +5,8 @@ import { client } from "@/sanity/lib/client"
 import { PRICE_LIST_QUERY } from "@/sanity/lib/queries"
 import { PriceItem } from "@/types/sanity"
 
+export const dynamic = "force-dynamic";
+
 export default async function PriceListPage() {
     const prices: PriceItem[] = await client.fetch(PRICE_LIST_QUERY)
 

@@ -10,6 +10,8 @@ import { INSPECTION_PAGE_QUERY, REGULATION_QUERY, SITE_SETTINGS_QUERY } from "@/
 import { InspectionPageData, Regulation, SiteSettings } from "@/types/sanity"
 import { urlFor } from "@/sanity/lib/image"
 
+export const dynamic = "force-dynamic";
+
 export default async function MuayeneServisPage() {
     const [regulations, settings, inspectionData] = await Promise.all([
         client.fetch<Regulation[]>(REGULATION_QUERY),
