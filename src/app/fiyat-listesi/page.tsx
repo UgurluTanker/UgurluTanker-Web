@@ -3,14 +3,14 @@ import { Badge } from "@/components/ui/badge"
 import { Info } from "lucide-react"
 import { client } from "@/sanity/lib/client"
 import { PRICE_LIST_QUERY, PRICE_LIST_PAGE_QUERY } from "@/sanity/lib/queries"
-import { PriceItem } from "@/types/sanity"
+import { PriceItem, PriceListPageData } from "@/types/sanity"
 
 export const dynamic = "force-dynamic";
 
 export default async function PriceListPage() {
     const [prices, pageData] = await Promise.all([
         client.fetch<PriceItem[]>(PRICE_LIST_QUERY, {}, { next: { revalidate: 0 } }),
-        client.fetch<any>(PRICE_LIST_PAGE_QUERY, {}, { next: { revalidate: 0 } })
+        client.fetch<PriceListPageData>(PRICE_LIST_PAGE_QUERY, {}, { next: { revalidate: 0 } })
     ])
 
     // Group prices by category

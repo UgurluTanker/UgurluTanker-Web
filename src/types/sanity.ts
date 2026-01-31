@@ -135,3 +135,9 @@ export interface InspectionPageData {
     requiredDocsBadge?: string;
     requiredDocsTitle?: string;
 }
+
+export interface PriceListPageData {
+    badge: string;
+    headerTitle: string;
+    description: string;
+}
