@@ -19,6 +19,13 @@ export const siteSettingsType = defineType({
             initialValue: 'UĞURLU TANKER SINAİ GAZLAR İNŞ.TUR.TİC.SAN.LTD.ŞTİ',
         }),
         defineField({
+            name: 'versionNote',
+            title: 'Versiyon / Yedek Notu (History İşaretleyici)',
+            type: 'string',
+            group: 'general',
+            description: 'Önemli bir değişiklik yapmadan önce buraya "ANA YEDEK" gibi bir not yazıp yayınlarsanız, Sanity geçmişinde (History) bu sürümü kolayca bulabilirsiniz.',
+        }),
+        defineField({
             name: 'address',
             title: 'Adres',
             type: 'text',

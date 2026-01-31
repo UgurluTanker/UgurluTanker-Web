@@ -8,7 +8,8 @@ import { regulationType } from './regulation'
 
 import { corporatePageType } from './corporatePage'
 import { inspectionPageType } from './inspectionPage'
+import { priceListPageType } from './priceListPage'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-    types: [homepageType, serviceType, priceItemType, siteSettingsType, galleryType, regulationType, corporatePageType, inspectionPageType],
+    types: [homepageType, serviceType, priceItemType, siteSettingsType, galleryType, regulationType, corporatePageType, inspectionPageType, priceListPageType],
 }

@@ -5,7 +5,7 @@ import { schema } from './src/sanity/schemaTypes'
 import { projectId, dataset } from './src/sanity/env'
 
 const singletonActions = new Set(['publish', 'discardChanges', 'restore'])
-const singletonTypes = new Set(['homepage', 'siteSettings'])
+const singletonTypes = new Set(['homepage', 'siteSettings', 'corporatePage', 'inspectionPage', 'priceListPage'])
 
 export default defineConfig({
     basePath: '/admin',
@@ -35,6 +35,33 @@ export default defineConfig({
                                 S.document()
                                     .schemaType('siteSettings')
                                     .documentId('siteSettings')
+                            ),
+                        // Singleton: Kurumsal Sayfa
+                        S.listItem()
+                            .title('Kurumsal Sayfa')
+                            .id('corporatePage')
+                            .child(
+                                S.document()
+                                    .schemaType('corporatePage')
+                                    .documentId('corporatePage')
+                            ),
+                        // Singleton: Muayene & Servis Sayfası
+                        S.listItem()
+                            .title('Muayene & Servis Sayfası')
+                            .id('inspectionPage')
+                            .child(
+                                S.document()
+                                    .schemaType('inspectionPage')
+                                    .documentId('inspectionPage')
+                            ),
+                        // Singleton: Fiyat Listesi Sayfası
+                        S.listItem()
+                            .title('Fiyat Listesi Sayfası')
+                            .id('priceListPage')
+                            .child(
+                                S.document()
+                                    .schemaType('priceListPage')
+                                    .documentId('priceListPage')
                             ),
                         S.divider(),
                         // Regular documents

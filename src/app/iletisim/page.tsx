@@ -7,8 +7,10 @@ import { client } from "@/sanity/lib/client"
 import { SITE_SETTINGS_QUERY } from "@/sanity/lib/queries"
 import { SiteSettings } from "@/types/sanity"
 
+export const dynamic = "force-dynamic";
+
 export default async function ContactPage() {
-    const settings = await client.fetch<SiteSettings>(SITE_SETTINGS_QUERY)
+    const settings = await client.fetch<SiteSettings>(SITE_SETTINGS_QUERY, {}, { next: { revalidate: 0 } })
 
     const phone1 = settings?.phone1 || "(0262) 335 04 15"
     const mobile = settings?.mobile || "+90 538 774 57 41"

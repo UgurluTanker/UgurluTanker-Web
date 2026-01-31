@@ -131,6 +131,12 @@ export const PRICE_LIST_QUERY = groq`*[_type == "priceItem"] | order(order asc, 
   order
 }`
 
+export const PRICE_LIST_PAGE_QUERY = groq`*[_type == "priceListPage"][0]{
+  badge,
+  headerTitle,
+  description
+}`
+
 export const REGULATION_QUERY = groq`*[_type == "regulation"] | order(order asc) {
   title,
   category,

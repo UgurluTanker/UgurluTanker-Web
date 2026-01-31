@@ -2,13 +2,16 @@ import React from "react"
 import { Badge } from "@/components/ui/badge"
 import { Info } from "lucide-react"
 import { client } from "@/sanity/lib/client"
-import { PRICE_LIST_QUERY } from "@/sanity/lib/queries"
+import { PRICE_LIST_QUERY, PRICE_LIST_PAGE_QUERY } from "@/sanity/lib/queries"
 import { PriceItem } from "@/types/sanity"
 
 export const dynamic = "force-dynamic";
 
 export default async function PriceListPage() {
-    const prices: PriceItem[] = await client.fetch(PRICE_LIST_QUERY, {}, { next: { revalidate: 0 } })
+    const [prices, pageData] = await Promise.all([
+        client.fetch<PriceItem[]>(PRICE_LIST_QUERY, {}, { next: { revalidate: 0 } }),
+        client.fetch<any>(PRICE_LIST_PAGE_QUERY, {}, { next: { revalidate: 0 } })
+    ])
 
     // Group prices by category
     const groupedPrices = prices.reduce((acc: Record<string, { service: string; onay: string; merkez: string; total: string }[]>, item: PriceItem) => {
@@ -39,11 +42,13 @@ export default async function PriceListPage() {
                 </div>
                 <div className="container relative z-10 text-center animate-slide-up">
                     <Badge className="bg-primary/20 text-primary border-primary/30 mb-6 font-bold tracking-widest px-4">
-                        2026 YILI MUAYENE ÜCRETLERİ
+                        {pageData?.badge || "2026 YILI MUAYENE ÜCRETLERİ"}
                     </Badge>
-                    <h1 className="text-4xl md:text-6xl font-black text-white mb-6">Fiyat Listesi</h1>
+                    <h1 className="text-4xl md:text-6xl font-black text-white mb-6">
+                        {pageData?.headerTitle || "Fiyat Listesi"}
+                    </h1>
                     <p className="text-lg text-slate-400 max-w-2xl mx-auto font-medium">
-                        01/01/2026 – 31/12/2026 tarihleri arasında uygulanacak araç ve tank muayene ücretleri, T.C. Ulaştırma ve Altyapı Bakanlığı genelgesine uygun olarak belirlenmiştir.
+                        {pageData?.description || "01/01/2026 – 31/12/2026 tarihleri arasında uygulanacak araç ve tank muayene ücretleri, T.C. Ulaştırma ve Altyapı Bakanlığı genelgesine uygun olarak belirlenmiştir."}
                     </p>
                 </div>
                 {/* Visual curve decoration */}

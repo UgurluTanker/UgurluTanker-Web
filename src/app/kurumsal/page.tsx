@@ -7,10 +7,12 @@ import { CorporatePageData, SiteSettings } from "@/types/sanity"
 import { PortableText } from "@portabletext/react"
 import { urlFor } from "@/sanity/lib/image"
 
+export const dynamic = "force-dynamic";
+
 export default async function CorporatePage() {
     const [corporateData, settings] = await Promise.all([
-        client.fetch<CorporatePageData>(CORPORATE_PAGE_QUERY),
-        client.fetch<SiteSettings>(SITE_SETTINGS_QUERY)
+        client.fetch<CorporatePageData>(CORPORATE_PAGE_QUERY, {}, { next: { revalidate: 0 } }),
+        client.fetch<SiteSettings>(SITE_SETTINGS_QUERY, {}, { next: { revalidate: 0 } })
     ])
 
     const heroTitle = corporateData?.heroTitle || "Hakkımızda"
