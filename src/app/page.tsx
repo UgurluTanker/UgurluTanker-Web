@@ -1,18 +1,20 @@
 import Image from "next/image"
 import Link from "next/link"
-import { ShieldCheck, ClipboardCheck, ArrowRight, CheckCircle2, PhoneCall } from "lucide-react"
+import * as LucideIcons from "lucide-react"
+import { ShieldCheck, ClipboardCheck, ArrowRight, CheckCircle2, PhoneCall, Truck, Gauge } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { client } from "@/sanity/lib/client"
-import { HOMEPAGE_QUERY, SITE_SETTINGS_QUERY } from "@/sanity/lib/queries"
+import { HOMEPAGE_QUERY, SITE_SETTINGS_QUERY, SERVICES_QUERY } from "@/sanity/lib/queries"
 import { urlFor } from "@/sanity/lib/image"
-import { SiteSettings, HomepageData } from "@/types/sanity"
+import { SiteSettings, HomepageData, Service } from "@/types/sanity"
 
 export default async function Home() {
-  const [data, settings] = await Promise.all([
+  const [data, settings, services] = await Promise.all([
     client.fetch<HomepageData>(HOMEPAGE_QUERY),
-    client.fetch<SiteSettings>(SITE_SETTINGS_QUERY)
+    client.fetch<SiteSettings>(SITE_SETTINGS_QUERY),
+    client.fetch<Service[]>(SERVICES_QUERY)
   ])
 
   const heroImage = data?.heroImages?.[0] ? urlFor(data.heroImages[0]).url() : "/images/hero-tanker.png"
@@ -23,7 +25,6 @@ export default async function Home() {
     <div className="flex flex-col gap-0 overflow-hidden">
       {/* Hero Section */}
       <section className="relative min-h-[85vh] flex items-center bg-slate-900 overflow-hidden group">
-        {/* Background with zoom effect */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-900/80 to-transparent z-10" />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent z-10" />
@@ -34,7 +35,6 @@ export default async function Home() {
             className="object-cover opacity-60 transition-transform duration-10000 group-hover:scale-110"
             priority
           />
-          {/* Brand Watermark Overlay */}
           <div className="absolute -right-20 -bottom-20 opacity-5 pointer-events-none select-none z-20">
             <Image
               src="/images/logo-ugurlu.png"
@@ -87,14 +87,43 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Quick Actions / Features */}
+      {/* Featured Services Section */}
+      <section className="py-24 bg-slate-50">
+        <div className="container">
+          <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+            <Badge variant="outline" className="text-primary border-primary/30 px-4 py-1.5 text-xs font-bold tracking-widest uppercase">UZMANLIK ALANLARIMIZ</Badge>
+            <h2 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tight">Öne Çıkan Hizmetlerimiz</h2>
+            <p className="text-slate-600 font-medium leading-relaxed italic">Sektör standartlarında, tam yetkili denetim ve sertifikalandırma çözümleri.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {services.slice(0, 4).map((service, idx) => {
+              const iconToUse = service.iconName || service.icon || "ShieldCheck"
+              const IconComponent = (LucideIcons[iconToUse as keyof typeof LucideIcons] as LucideIcons.LucideIcon) || LucideIcons.ShieldCheck
+              return (
+                <Link key={idx} href="/hizmetlerimiz" className="group">
+                  <Card className="h-full border-none shadow-lg hover:shadow-2xl transition-all duration-500 rounded-3xl overflow-hidden bg-white hover:-translate-y-2">
+                    <CardContent className="p-8 flex flex-col items-center text-center space-y-4">
+                      <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center group-hover:bg-primary transition-colors duration-500">
+                        <IconComponent className="h-8 w-8 text-primary group-hover:text-white" />
+                      </div>
+                      <h3 className="text-xl font-black text-slate-900 leading-tight group-hover:text-primary transition-colors">{service.title}</h3>
+                      <p className="text-sm text-slate-500 font-medium line-clamp-2">{service.shortDescription || service.description?.[0]?.children?.[0]?.text || "Detaylar için tıklayın."}</p>
+                    </CardContent>
+                  </Card>
+                </Link>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Quick Info & Stats */}
       <section className="py-24 bg-white relative">
         <div className="container">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 -mt-32 relative z-30">
-            {/* Action 1 */}
             <Card className="border-none shadow-2xl bg-white/95 backdrop-blur group hover:translate-y-[-10px] transition-all duration-500 rounded-2xl overflow-hidden border-b-8 border-primary">
               <CardContent className="p-8 space-y-6">
-                <div className="w-16 h-16 bg-primary/5 rounded-2xl flex items-center justify-center group-hover:bg-primary group-hover:rotate-6 transition-all duration-500">
+                <div className="w-16 h-16 bg-primary/5 rounded-2xl flex items-center justify-center group-hover:bg-primary transition-all duration-500">
                   <PhoneCall className="h-8 w-8 text-primary group-hover:text-white" />
                 </div>
                 <div className="space-y-3">
@@ -107,10 +136,9 @@ export default async function Home() {
               </CardContent>
             </Card>
 
-            {/* Action 2 */}
             <Card className="border-none shadow-2xl bg-white/95 backdrop-blur group hover:translate-y-[-10px] transition-all duration-500 rounded-2xl overflow-hidden border-b-8 border-slate-900">
               <CardContent className="p-8 space-y-6">
-                <div className="w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center group-hover:bg-slate-900 group-hover:-rotate-6 transition-all duration-500">
+                <div className="w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center group-hover:bg-slate-900 transition-all duration-500">
                   <ClipboardCheck className="h-8 w-8 text-slate-600 group-hover:text-white" />
                 </div>
                 <div className="space-y-3">
@@ -123,10 +151,9 @@ export default async function Home() {
               </CardContent>
             </Card>
 
-            {/* Action 3 */}
             <Card className="border-none shadow-2xl bg-white/95 backdrop-blur group hover:translate-y-[-10px] transition-all duration-500 rounded-2xl overflow-hidden border-b-8 border-primary">
               <CardContent className="p-8 space-y-6">
-                <div className="w-16 h-16 bg-primary/5 rounded-2xl flex items-center justify-center group-hover:bg-primary group-hover:rotate-6 transition-all duration-500">
+                <div className="w-16 h-16 bg-primary/5 rounded-2xl flex items-center justify-center group-hover:bg-primary transition-all duration-500">
                   <ShieldCheck className="h-8 w-8 text-primary group-hover:text-white" />
                 </div>
                 <div className="space-y-3">
@@ -140,32 +167,28 @@ export default async function Home() {
             </Card>
           </div>
 
-          {/* Process Section */}
-          <section className="py-24 bg-slate-50">
-            <div className="container">
-              <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-                <Badge variant="outline" className="text-primary border-primary/30 px-4 py-1.5 text-xs font-bold tracking-widest">SÜREÇ NASIL İŞLER?</Badge>
-                <h2 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tight">4 Adımda Güvenli Muayene</h2>
-                <p className="text-slate-600 font-medium leading-relaxed">Randevudan belge teslimine kadar tüm süreci sizin için şeffaf ve hızlı yönetiyoruz.</p>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative">
-                {/* Connecting Line (Desktop) */}
-                <div className="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-slate-200 -z-0" />
-                {[
-                  { step: "01", title: "Randevu Planlama", desc: "Online veya telefonla size uygun zamanı belirleyin." },
-                  { step: "02", title: "Teknik Ön Kontrol", desc: "Aracınızın muayene öncesi eksiklerini gözden geçiriyoruz." },
-                  { step: "03", title: "Resmi Muayene", desc: "TSE yetkili ekipmanlarımızla detaylı denetimi yapıyoruz." },
-                  { step: "04", title: "Belge Teslimi", desc: "Onaylı raporunuzu dijital ve fiziksel olarak teslim ediyoruz." }
-                ].map((item, idx) => (
-                  <div key={idx} className="relative z-10 space-y-6 text-center group">
-                    <div className="w-16 h-16 bg-white rounded-full border-4 border-slate-50 flex items-center justify-center mx-auto shadow-xl group-hover:bg-primary group-hover:border-primary/20 transition-all duration-500">
-                      <span className="text-xl font-black text-primary group-hover:text-white">{item.step}</span>
-                    </div>
-                    <h4 className="text-lg font-black text-slate-900">{item.title}</h4>
-                    <p className="text-sm text-slate-600 font-medium leading-relaxed px-4">{item.desc}</p>
+          <section className="py-24">
+            <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+              <Badge variant="outline" className="text-primary border-primary/30 px-4 py-1.5 text-xs font-bold tracking-widest">SÜREÇ NASIL İŞLER?</Badge>
+              <h2 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tight">4 Adımda Güvenli Muayene</h2>
+              <p className="text-slate-600 font-medium leading-relaxed">Randevudan belge teslimine kadar tüm süreci sizin için şeffaf ve hızlı yönetiyoruz.</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative">
+              <div className="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-slate-200 -z-0" />
+              {[
+                { step: "01", title: "Randevu Planlama", desc: "Online veya telefonla size uygun zamanı belirleyin." },
+                { step: "02", title: "Teknik Ön Kontrol", desc: "Aracınızın muayene öncesi eksiklerini gözden geçiriyoruz." },
+                { step: "03", title: "Resmi Muayene", desc: "TSE yetkili ekipmanlarımızla detaylı denetimi yapıyoruz." },
+                { step: "04", title: "Belge Teslimi", desc: "Onaylı raporunuzu dijital ve fiziksel olarak teslim ediyoruz." }
+              ].map((item, idx) => (
+                <div key={idx} className="relative z-10 space-y-6 text-center group">
+                  <div className="w-16 h-16 bg-white rounded-full border-4 border-slate-50 flex items-center justify-center mx-auto shadow-xl group-hover:bg-primary transition-all duration-500">
+                    <span className="text-xl font-black text-primary group-hover:text-white">{item.step}</span>
                   </div>
-                ))}
-              </div>
+                  <h4 className="text-lg font-black text-slate-900">{item.title}</h4>
+                  <p className="text-sm text-slate-600 font-medium leading-relaxed px-4">{item.desc}</p>
+                </div>
+              ))}
             </div>
           </section>
 
@@ -177,12 +200,7 @@ export default async function Home() {
                 20 yılı aşkın sektörel tecrübemiz ve TSE standartlarındaki yetkinliğimizle, tankerlerinizin teknik denetimlerini en ince ayrıntısına kadar gerçekleştiriyoruz.
               </p>
               <div className="space-y-4">
-                {[
-                  "TSE ve Ulaştırma Bakanlığı Onaylı Yetki",
-                  "ADR Mevzuatına Tam Uyumluluk",
-                  "Modern Test ve Ölçüm Ekipmanları",
-                  "Hızlı ve Güvenilir Belgelendirme Süreci"
-                ].map((item, id) => (
+                {["TSE ve Ulaştırma Bakanlığı Onaylı Yetki", "ADR Mevzuatına Tam Uyumluluk", "Modern Test ve Ölçüm Ekipmanları", "Hızlı ve Güvenilir Belgelendirme Süreci"].map((item, id) => (
                   <div key={id} className="flex items-center space-x-3 group">
                     <CheckCircle2 className="h-6 w-6 text-primary shrink-0 group-hover:scale-110 transition-transform" />
                     <span className="font-bold text-slate-700">{item}</span>
@@ -208,7 +226,6 @@ export default async function Home() {
             </div>
           </div>
 
-          {/* Stats Section */}
           <div className="mt-32 py-16 bg-slate-900 rounded-[3rem] overflow-hidden relative">
             <div className="absolute inset-0 opacity-5 pointer-events-none">
               <div className="absolute top-0 right-0 w-96 h-96 bg-primary rounded-full blur-[100px]" />
@@ -232,7 +249,6 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Trust Badges / Brands */}
       <section className="py-24 bg-slate-50 border-y">
         <div className="container text-center space-y-12">
           <p className="text-sm text-slate-400 font-black uppercase tracking-widest">YETKİLİ VE İŞBİRLİĞİ YAPILAN KURUMLAR</p>

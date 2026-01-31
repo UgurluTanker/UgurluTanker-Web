@@ -49,7 +49,8 @@ export default async function ServicesPage() {
                 <div className="container">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {services.map((service, index) => {
-                            const IconComponent = (LucideIcons[service.icon as keyof typeof LucideIcons] as LucideIcons.LucideIcon) || LucideIcons.ShieldCheck
+                            const iconToUse = service.iconName || service.icon || "ShieldCheck"
+                            const IconComponent = (LucideIcons[iconToUse as keyof typeof LucideIcons] as LucideIcons.LucideIcon) || LucideIcons.ShieldCheck
                             const bgColor = service.color || (index % 2 === 0 ? "bg-primary" : "bg-slate-900")
 
                             return (

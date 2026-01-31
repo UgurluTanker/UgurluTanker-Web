@@ -28,6 +28,12 @@ export const serviceType = defineType({
             description: 'Örn: Shield, Truck, FileCheck. Lucide react kütüphanesinden bir isim.',
         }),
         defineField({
+            name: 'iconName',
+            title: 'İkon Adı (Seeding)',
+            type: 'string',
+            description: 'Lucide ikon ismi (Örn: Shield)',
+        }),
+        defineField({
             name: 'iconImage',
             title: 'İkon Görseli (Opsiyonel)',
             type: 'image',

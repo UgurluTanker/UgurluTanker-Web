@@ -18,7 +18,7 @@ export default async function PriceListPage() {
             service: item.serviceName,
             onay: item.onayKurulusuFee || "-",
             merkez: item.muayeneMerkeziFee || "-",
-            total: item.totalFee || "-"
+            total: item.price || item.totalFee || "-"
         })
         return acc
     }, {})

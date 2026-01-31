@@ -36,6 +36,7 @@ export const SERVICES_QUERY = groq`*[_type == "service"] | order(title asc) {
   title,
   slug,
   icon,
+  iconName,
   iconImage,
   color,
   shortDescription,
@@ -117,6 +118,7 @@ export const PRICE_LIST_QUERY = groq`*[_type == "priceItem"] | order(order asc, 
   onayKurulusuFee,
   muayeneMerkeziFee,
   totalFee,
+  price,
   category,
   order
 }`

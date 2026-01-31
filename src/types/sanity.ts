@@ -4,7 +4,8 @@ export interface PriceItem {
     serviceName: string;
     onayKurulusuFee?: string;
     muayeneMerkeziFee?: string;
-    totalFee: string;
+    totalFee?: string;
+    price?: string;
     category?: string;
     order?: number;
 }
@@ -54,6 +55,7 @@ export interface Service {
     title: string;
     slug: { current: string };
     icon?: string;
+    iconName?: string;
     iconImage?: Image;
     color?: string;
     shortDescription?: string;

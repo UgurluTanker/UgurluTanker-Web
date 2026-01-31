@@ -28,7 +28,12 @@ export const priceItemType = defineType({
             title: 'Toplam Ücret',
             type: 'string',
             description: 'Örn: 3.205 TL',
-            validation: (Rule) => Rule.required(),
+        }),
+        defineField({
+            name: 'price',
+            title: 'Fiyat (Seeding)',
+            type: 'string',
+            description: 'Örn: 5.000 TL',
         }),
         defineField({
             name: 'category',
