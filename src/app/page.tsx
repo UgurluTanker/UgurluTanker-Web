@@ -107,7 +107,7 @@ export default async function Home() {
                         <IconComponent className="h-8 w-8 text-primary group-hover:text-white" />
                       </div>
                       <h3 className="text-xl font-black text-slate-900 leading-tight group-hover:text-primary transition-colors">{service.title}</h3>
-                      <p className="text-sm text-slate-500 font-medium line-clamp-2">{service.shortDescription || (service.description as any)?.[0]?.children?.[0]?.text || "Detaylar için tıklayın."}</p>
+                      <p className="text-sm text-slate-500 font-medium line-clamp-2">{service.shortDescription || "Detaylar için tıklayın."}</p>
                     </CardContent>
                   </Card>
                 </Link>
