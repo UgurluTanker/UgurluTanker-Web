@@ -74,5 +74,29 @@ export const siteSettingsType = defineType({
                 }
             ]
         }),
+        defineField({
+            name: 'aboutUs',
+            title: 'Hakkımızda',
+            type: 'array',
+            of: [{ type: 'block' }],
+        }),
+        defineField({
+            name: 'mission',
+            title: 'Misyonumuz',
+            type: 'text',
+            rows: 4,
+        }),
+        defineField({
+            name: 'vision',
+            title: 'Vizyonumuz',
+            type: 'text',
+            rows: 4,
+        }),
+        defineField({
+            name: 'history',
+            title: 'Tarihçemiz',
+            type: 'array',
+            of: [{ type: 'block' }],
+        }),
     ],
 })

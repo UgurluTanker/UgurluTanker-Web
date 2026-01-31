@@ -29,6 +29,7 @@ const navLinks = [
     },
     { name: "Hizmetlerimiz", href: "/hizmetlerimiz" },
     { name: "Muayene & Servis", href: "/muayene-servis" },
+    { name: "Galeri", href: "/galeri" },
     { name: "Fiyat Listesi", href: "/fiyat-listesi" },
     { name: "İletişim", href: "/iletisim" },
 ]

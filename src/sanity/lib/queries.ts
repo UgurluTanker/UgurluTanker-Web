@@ -29,8 +29,19 @@ export const SERVICES_QUERY = groq`*[_type == "service"] | order(title asc) {
   slug,
   icon,
   iconImage,
+  shortDescription,
   description,
+  features,
+  steps,
+  requiredDocuments,
   mainImage
+}`
+
+export const GALLERY_QUERY = groq`*[_type == "gallery"] | order(order asc, _createdAt desc) {
+  title,
+  category,
+  image,
+  description
 }`
 
 export const PRICE_LIST_QUERY = groq`*[_type == "priceItem"] | order(category asc, serviceName asc) {
