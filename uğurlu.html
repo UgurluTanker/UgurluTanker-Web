@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uğurlu Tanker - Önizleme</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .kirmizi {
+            color: #D53012;
+        }
+                html { scroll-behavior: smooth; }
+        /* Mobil menü animasyonu */
+        #mobile-menu { transition: max-height 0.3s ease-in-out; max-height: 0; overflow: hidden; }
+        #mobile-menu.open { max-height: 300px; }
+    </style>
+</head>
+<body class="font-sans text-slate-800 bg-slate-50 antialiased">
+
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 bg-transparent py-6">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <div class="text-2xl font-bold tracking-wider text-white">
+                UĞURLU <span class="kirmizi">TANKER</span>
+            </div>
+
+            <div class="hidden md:flex space-x-8 text-white text-sm font-medium items-center">
+                <a href="#" class="hover:text-red-500 transition">KURUMSAL</a>
+                <a href="#" class="hover:text-red-500 transition">TANKER İMALATI</a>
+                <a href="#" class="hover:text-red-500 transition">MUAYENE & SERVİS</a>
+                <a href="#" class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-md transition transform hover:-translate-y-0.5">
+                    TEKLİF AL
+                </a>
+            </div>
+
+            <button onclick="toggleMenu()" class="md:hidden text-white focus:outline-none">
+                <i data-lucide="menu" class="w-8 h-8"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="md:hidden bg-slate-900 border-t border-slate-800 absolute w-full top-full">
+            <div class="flex flex-col p-6 space-y-4 text-white">
+                <a href="#" class="kirmizi">KURUMSAL</a>
+                <a href="#" class="kirmizi">TANKER İMALATI</a>
+                <a href="#" class="kirmizi">MUAYENE & SERVİS</a>
+                <a href="#" class="kirmizi font-bold">İLETİŞİME GEÇ</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="relative h-screen flex items-center justify-center overflow-hidden bg-slate-900">
+        <div class="absolute inset-0 z-0">
+             <img src="https://images.unsplash.com/photo-1596732360249-14a60124314e?q=80&w=2070&auto=format&fit=crop" 
+                  alt="Endüstriyel Arkaplan" 
+                  class="w-full h-full object-cover opacity-30">
+             <div class="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/80 to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 container mx-auto px-6 mt-10">
+            <div class="max-w-2xl">
+                <div class="inline-block bg-red-600/20 border border-red-500/30 text-red-500 px-4 py-1 rounded-full text-sm font-semibold mb-6">
+                    1977'den Beri Güvenle
+                </div>
+                <h1 class="text-5xl md:text-6xl font-extrabold text-white leading-tight mb-6">
+                    Yolların Yükünü <br/>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-red-600">
+                        Güvenle Taşıyoruz
+                    </span>
+                </h1>
+                <p class="text-lg text-slate-300 mb-8 leading-relaxed">
+                    Akaryakıt, alüminyum ve krom tanker imalatında yarım asırlık tecrübe. 
+                    ADR standartlarına uygun üretim ve uzman muayene hizmetleri.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <button class="bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-md font-bold text-lg transition flex items-center justify-center gap-2">
+                        Ürünleri İncele <i data-lucide="chevron-right"></i>
+                    </button>
+                    <button class="border border-slate-600 hover:border-white text-white px-8 py-4 rounded-md font-bold text-lg transition">
+                        Hizmetlerimiz
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="py-24 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">Neler Yapıyoruz?</h2>
+                <div class="h-1 w-20 bg-red-500 mx-auto rounded"></div>
+                <p class="mt-4 text-slate-600 max-w-2xl mx-auto">
+                    Uğurlu Tanker olarak sadece üretim yapmıyor, satış sonrası servis ve yasal zorunluluklarınızda da yanınızda oluyoruz.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="group p-8 border border-slate-100 rounded-xl shadow-sm hover:shadow-xl transition duration-300 bg-slate-50 hover:bg-white">
+                    <div class="w-14 h-14 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition">
+                        <i data-lucide="truck" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-slate-900">Tanker İmalatı</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                        Akaryakıt, Alüminyum, Paslanmaz Krom ve Silobas imalatında yüksek kalite standartları.
+                    </p>
+                </div>
+
+                <div class="group p-8 border border-slate-100 rounded-xl shadow-sm hover:shadow-xl transition duration-300 bg-slate-50 hover:bg-white">
+                    <div class="w-14 h-14 bg-red-100 text-red-600 rounded-lg flex items-center justify-center mb-6 group-hover:bg-red-600 group-hover:text-white transition">
+                        <i data-lucide="shield-check" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-slate-900">ADR Muayene</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                        Tehlikeli madde taşıyan araçlarınızın periyodik muayene ve testleri yetkili merkezimizde.
+                    </p>
+                </div>
+
+                 <div class="group p-8 border border-slate-100 rounded-xl shadow-sm hover:shadow-xl transition duration-300 bg-slate-50 hover:bg-white">
+                    <div class="w-14 h-14 bg-slate-200 text-slate-700 rounded-lg flex items-center justify-center mb-6 group-hover:bg-slate-800 group-hover:text-white transition">
+                        <i data-lucide="pen-tool" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-slate-900">Tadilat & Bakım</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                        Mevcut tankerlerinizin modernizasyonu, tamiri ve üst yapı değişiklikleri.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-slate-950 py-10 text-slate-500 text-sm border-t border-slate-900">
+        <div class="container mx-auto px-6 text-center">
+            &copy; 2026 Uğurlu Tanker Sanayii. Tüm hakları saklıdır.
+        </div>
+    </footer>
+
+    <script>
+        // İkonları oluştur
+        lucide.createIcons();
+
+        // Navbar Scroll Efekti
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-slate-900', 'shadow-lg', 'py-4');
+                navbar.classList.remove('bg-transparent', 'py-6');
+            } else {
+                navbar.classList.remove('bg-slate-900', 'shadow-lg', 'py-4');
+                navbar.classList.add('bg-transparent', 'py-6');
+            }
+        });
+
+        // Mobil Menü Toggle
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('open');
+        }
+    </script>
+</body>
+</html>
