@@ -8,7 +8,7 @@ import { PriceItem } from "@/types/sanity"
 export const dynamic = "force-dynamic";
 
 export default async function PriceListPage() {
-    const prices: PriceItem[] = await client.fetch(PRICE_LIST_QUERY)
+    const prices: PriceItem[] = await client.fetch(PRICE_LIST_QUERY, {}, { next: { revalidate: 0 } })
 
     // Group prices by category
     const groupedPrices = prices.reduce((acc: Record<string, { service: string; onay: string; merkez: string; total: string }[]>, item: PriceItem) => {

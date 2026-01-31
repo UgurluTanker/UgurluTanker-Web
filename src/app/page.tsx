@@ -14,9 +14,9 @@ export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const [data, settings, services] = await Promise.all([
-    client.fetch<HomepageData>(HOMEPAGE_QUERY),
-    client.fetch<SiteSettings>(SITE_SETTINGS_QUERY),
-    client.fetch<Service[]>(SERVICES_QUERY)
+    client.fetch<HomepageData>(HOMEPAGE_QUERY, {}, { next: { revalidate: 0 } }),
+    client.fetch<SiteSettings>(SITE_SETTINGS_QUERY, {}, { next: { revalidate: 0 } }),
+    client.fetch<Service[]>(SERVICES_QUERY, {}, { next: { revalidate: 0 } })
   ])
 
   const activeSlide = data?.heroSlides?.[0]

@@ -13,8 +13,8 @@ export const dynamic = "force-dynamic";
 
 export default async function ServicesPage() {
     const [services, settings] = await Promise.all([
-        client.fetch<Service[]>(SERVICES_QUERY),
-        client.fetch<SiteSettings>(SITE_SETTINGS_QUERY)
+        client.fetch<Service[]>(SERVICES_QUERY, {}, { next: { revalidate: 0 } }),
+        client.fetch<SiteSettings>(SITE_SETTINGS_QUERY, {}, { next: { revalidate: 0 } })
     ])
 
     const mainPhone = settings?.mobile || settings?.phone1 || "0262 335 04 15"

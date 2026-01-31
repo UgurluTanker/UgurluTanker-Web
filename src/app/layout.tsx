@@ -27,8 +27,8 @@ export default async function RootLayout({
   children: React.ReactNode
 }>) {
   const [settings, services] = await Promise.all([
-    client.fetch<SiteSettings>(SITE_SETTINGS_QUERY),
-    client.fetch<Service[]>(SERVICES_QUERY)
+    client.fetch<SiteSettings>(SITE_SETTINGS_QUERY, {}, { next: { revalidate: 0 } }),
+    client.fetch<Service[]>(SERVICES_QUERY, {}, { next: { revalidate: 0 } })
   ])
 
   return (

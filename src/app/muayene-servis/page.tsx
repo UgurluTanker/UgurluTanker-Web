@@ -14,9 +14,9 @@ export const dynamic = "force-dynamic";
 
 export default async function MuayeneServisPage() {
     const [regulations, settings, inspectionData] = await Promise.all([
-        client.fetch<Regulation[]>(REGULATION_QUERY),
-        client.fetch<SiteSettings>(SITE_SETTINGS_QUERY),
-        client.fetch<InspectionPageData>(INSPECTION_PAGE_QUERY)
+        client.fetch<Regulation[]>(REGULATION_QUERY, {}, { next: { revalidate: 0 } }),
+        client.fetch<SiteSettings>(SITE_SETTINGS_QUERY, {}, { next: { revalidate: 0 } }),
+        client.fetch<InspectionPageData>(INSPECTION_PAGE_QUERY, {}, { next: { revalidate: 0 } })
     ])
 
     const mainPhone = settings?.mobile || settings?.phone1 || "0262 335 04 15"
