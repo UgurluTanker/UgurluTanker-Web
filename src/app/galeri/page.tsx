@@ -9,10 +9,12 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Maximize2, X } from "lucide-react"
 
+import type { Image as SanityImage } from 'sanity'
+
 interface GalleryItem {
     title: string
     category: string
-    image: any
+    image: SanityImage
     description?: string
 }
 
