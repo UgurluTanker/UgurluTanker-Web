@@ -1,61 +1,20 @@
 import React from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Truck, ShieldCheck, ClipboardCheck, Droplets, Gauge, AlertTriangle, ArrowRight } from "lucide-react"
+import { client } from "@/sanity/lib/client"
+import { SERVICES_QUERY, SITE_SETTINGS_QUERY } from "@/sanity/lib/queries"
+import { Service, SiteSettings } from "@/types/sanity"
+import * as LucideIcons from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { client } from "@/sanity/lib/client"
-import { SITE_SETTINGS_QUERY } from "@/sanity/lib/queries"
-import { SiteSettings } from "@/types/sanity"
-
-const services = [
-    {
-        title: "ADR Periyodik Muayene",
-        description: "Tehlikeli maddelerin karayoluyla taşınmasına yönelik araçların ve tankların periyodik teknik kontrolleri.",
-        icon: Truck,
-        color: "bg-primary",
-        details: ["Tank Gövde Kontrolü", "Ekipman Denetimi", "Sızdırmazlık Testi"]
-    },
-    {
-        title: "T9 Belgesi (ADR Uygunluk)",
-        description: "Tehlikeli madde taşıyan araçların teknik muayenesi ve uygunluk belgelendirme süreci.",
-        icon: ShieldCheck,
-        color: "bg-slate-900",
-        details: ["Araç Teknik Onayı", "Belge Yenileme", "TSE Onaylı Süreç"]
-    },
-    {
-        title: "Hacimsel Kalibrasyon",
-        description: "Tankerlerin taşıma kapasitelerinin hassas ölçümü ve kalibrasyon cetvellerinin hazırlanması.",
-        icon: Gauge,
-        color: "bg-primary",
-        details: ["Hassas Ölçüm", "Cetvel Hazırlama", "Litre Doğrulaması"]
-    },
-    {
-        title: "Sızdırmazlık Testi",
-        description: "Basınçlı ve basınçsız tankların sızdırmazlık kabiliyetlerinin teknik yöntemlerle test edilmesi.",
-        icon: Droplets,
-        color: "bg-slate-900",
-        details: ["Basınçlı Test", "Vakum Testi", "Sertifikalandırma"]
-    },
-    {
-        title: "Orta ve Ara Muayeneler",
-        description: "Tankların kullanım ömürleri boyunca belirli aralıklarla yapılması zorunlu olan teknik kontroller.",
-        icon: ClipboardCheck,
-        color: "bg-primary",
-        details: ["2.5 Yıl Kontrolü", "5 Yıl Kontrolü", "Görsel Teknik Denetim"]
-    },
-    {
-        title: "Hasar Sonrası Muayene",
-        description: "Kaza veya onarım sonrası tankların tekrar hizmete girmesi için gereken teknik onay kontrolleri.",
-        icon: AlertTriangle,
-        color: "bg-slate-900",
-        details: ["Yapısal Kontrol", "Onaylı Onarım Denetimi", "Güvenlik Sertifikası"]
-    }
-]
 
 export default async function ServicesPage() {
-    const settings = await client.fetch<SiteSettings>(SITE_SETTINGS_QUERY)
+    const [services, settings] = await Promise.all([
+        client.fetch<Service[]>(SERVICES_QUERY),
+        client.fetch<SiteSettings>(SITE_SETTINGS_QUERY)
+    ])
+
     const mainPhone = settings?.mobile || settings?.phone1 || "0262 335 04 15"
     const dialPhone = mainPhone.replace(/\s+/g, '')
 
@@ -89,39 +48,47 @@ export default async function ServicesPage() {
             <section className="py-24 bg-white">
                 <div className="container">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {services.map((service, index) => (
-                            <Card key={index} className="group border-none shadow-xl hover:shadow-2xl transition-all duration-500 rounded-3xl overflow-hidden bg-slate-50 hover:bg-white animate-fade-in" style={{ animationDelay: `${index * 100}ms` }}>
-                                <div className={`h-2 w-full ${service.color}`} />
-                                <CardHeader className="p-8">
-                                    <div className={`w-14 h-14 ${service.color} rounded-2xl flex items-center justify-center mb-6 group-hover:rotate-6 transition-transform shadow-lg shadow-black/5`}>
-                                        <service.icon className="h-7 w-7 text-white" />
-                                    </div>
-                                    <CardTitle className="text-2xl font-black text-slate-900 tracking-tight mb-2 group-hover:text-primary transition-colors">
-                                        {service.title}
-                                    </CardTitle>
-                                    <CardDescription className="text-slate-600 font-medium leading-relaxed">
-                                        {service.description}
-                                    </CardDescription>
-                                </CardHeader>
-                                <CardContent className="px-8 pb-8 pt-0">
-                                    <div className="space-y-4 mb-8">
-                                        <p className="text-xs font-black text-slate-400 uppercase tracking-widest">Neler Yapıyoruz?</p>
-                                        <div className="flex flex-wrap gap-2">
-                                            {service.details.map((detail, idx) => (
-                                                <Badge key={idx} variant="outline" className="text-[10px] font-bold py-1 border-slate-200">
-                                                    {detail}
-                                                </Badge>
-                                            ))}
+                        {services.map((service, index) => {
+                            const IconComponent = (LucideIcons[service.icon as keyof typeof LucideIcons] as LucideIcons.LucideIcon) || LucideIcons.ShieldCheck
+                            const bgColor = service.color || (index % 2 === 0 ? "bg-primary" : "bg-slate-900")
+
+                            return (
+                                <Card key={index} className="group border-none shadow-xl hover:shadow-2xl transition-all duration-500 rounded-3xl overflow-hidden bg-slate-50 hover:bg-white animate-fade-in" style={{ animationDelay: `${index * 100}ms` }}>
+                                    <div className={`h-2 w-full ${bgColor}`} />
+                                    <CardHeader className="p-8">
+                                        <div className={`w-14 h-14 ${bgColor} rounded-2xl flex items-center justify-center mb-6 group-hover:rotate-6 transition-transform shadow-lg shadow-black/5`}>
+                                            <IconComponent className="h-7 w-7 text-white" />
                                         </div>
-                                    </div>
-                                    <Button className="w-full bg-white hover:bg-primary hover:text-white text-slate-900 font-bold group/btn transition-all rounded-xl h-12 shadow-sm border border-slate-100" asChild>
-                                        <Link href="/iletisim">
-                                            DETAYLI BİLGİ AL <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
-                                        </Link>
-                                    </Button>
-                                </CardContent>
-                            </Card>
-                        ))}
+                                        <CardTitle className="text-2xl font-black text-slate-900 tracking-tight mb-2 group-hover:text-primary transition-colors">
+                                            {service.title}
+                                        </CardTitle>
+                                        <CardDescription className="text-slate-600 font-medium leading-relaxed line-clamp-3">
+                                            {service.shortDescription}
+                                        </CardDescription>
+                                    </CardHeader>
+                                    <CardContent className="px-8 pb-8 pt-0">
+                                        <div className="space-y-4 mb-8">
+                                            <p className="text-xs font-black text-slate-400 uppercase tracking-widest">Neler Yapıyoruz?</p>
+                                            <div className="flex flex-wrap gap-2">
+                                                {service.features?.map((detail, idx) => (
+                                                    <Badge key={idx} variant="outline" className="text-[10px] font-bold py-1 border-slate-200">
+                                                        {detail}
+                                                    </Badge>
+                                                ))}
+                                                {(!service.features || service.features.length === 0) && (
+                                                    <span className="text-[10px] text-slate-400 font-bold uppercase italic">Detaylar Ekleniyor...</span>
+                                                )}
+                                            </div>
+                                        </div>
+                                        <Button className="w-full bg-white hover:bg-primary hover:text-white text-slate-900 font-bold group/btn transition-all rounded-xl h-12 shadow-sm border border-slate-100" asChild>
+                                            <Link href="/iletisim">
+                                                DETAYLI BİLGİ AL <LucideIcons.ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
+                                            </Link>
+                                        </Button>
+                                    </CardContent>
+                                </Card>
+                            )
+                        })}
                     </div>
                 </div>
             </section>
@@ -129,8 +96,8 @@ export default async function ServicesPage() {
             {/* Call to Action */}
             <section className="py-20 bg-primary text-white overflow-hidden relative">
                 <div className="absolute inset-0 opacity-10 pointer-events-none">
-                    <Truck className="absolute -left-20 -top-20 w-96 h-96 rotate-12" />
-                    <Gauge className="absolute -right-20 -bottom-20 w-96 h-96 -rotate-12" />
+                    <LucideIcons.Truck className="absolute -left-20 -top-20 w-96 h-96 rotate-12" />
+                    <LucideIcons.Gauge className="absolute -right-20 -bottom-20 w-96 h-96 -rotate-12" />
                 </div>
                 <div className="container relative z-10 text-center space-y-8">
                     <h2 className="text-3xl md:text-5xl font-black tracking-tight">İhtiyacınız Olan Muayene İçin Hazırız</h2>

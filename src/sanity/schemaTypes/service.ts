@@ -36,6 +36,12 @@ export const serviceType = defineType({
             },
         }),
         defineField({
+            name: 'color',
+            title: 'Tema Rengi (Tailwind)',
+            type: 'string',
+            description: 'Örn: bg-primary, bg-slate-900',
+        }),
+        defineField({
             name: 'shortDescription',
             title: 'Kısa Açıklama',
             type: 'text',

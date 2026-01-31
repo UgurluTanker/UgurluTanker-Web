@@ -37,12 +37,72 @@ export const SERVICES_QUERY = groq`*[_type == "service"] | order(title asc) {
   slug,
   icon,
   iconImage,
+  color,
   shortDescription,
   description,
   features,
   steps,
   requiredDocuments,
   mainImage
+}`
+
+export const CORPORATE_PAGE_QUERY = groq`*[_type == "corporatePage"][0]{
+  heroTitle,
+  heroSubtitle,
+  mainHistoryTitle,
+  mainHistoryContent,
+  mainImage,
+  quoteText,
+  missionTitle,
+  missionContent,
+  visionTitle,
+  visionContent,
+  coreValues[] {
+    icon,
+    title,
+    description
+  }
+}`
+
+export const INSPECTION_PAGE_QUERY = groq`*[_type == "inspectionPage"][0]{
+  heroBadge,
+  heroTitle,
+  heroSubtitle,
+  whyChooseUs {
+    title,
+    description,
+    points
+  },
+  mainImage,
+  features[] {
+    icon,
+    title,
+    description,
+    color
+  },
+  adrGuide {
+    badge,
+    title
+  },
+  technicalSupport {
+    heading,
+    description,
+    scopeLabel,
+    scopeContent
+  },
+  operations {
+    badge,
+    title,
+    items[] {
+      number,
+      title,
+      description,
+      subItems
+    }
+  },
+  operationAlertText,
+  requiredDocsBadge,
+  requiredDocsTitle
 }`
 
 export const GALLERY_QUERY = groq`*[_type == "gallery"] | order(order asc, _createdAt desc) {

@@ -1,4 +1,4 @@
-import type { Image } from "sanity"
+import type { Image, PortableTextBlock } from "sanity"
 
 export interface PriceItem {
     serviceName: string;
@@ -48,4 +48,80 @@ export interface HomepageData {
         label: string;
         value: string;
     }>;
+}
+
+export interface Service {
+    title: string;
+    slug: { current: string };
+    icon?: string;
+    iconImage?: Image;
+    color?: string;
+    shortDescription?: string;
+    description?: PortableTextBlock[];
+    features?: string[];
+    steps?: Array<{
+        title: string;
+        description: string;
+    }>;
+    requiredDocuments?: string[];
+    mainImage?: Image;
+}
+
+export interface CorporatePageData {
+    heroTitle: string;
+    heroSubtitle?: string;
+    mainHistoryTitle?: string;
+    mainHistoryContent?: PortableTextBlock[];
+    mainImage?: Image;
+    quoteText?: string;
+    missionTitle?: string;
+    missionContent?: string;
+    visionTitle?: string;
+    visionContent?: string;
+    coreValues?: Array<{
+        icon: string;
+        title: string;
+        description: string;
+    }>;
+}
+
+export interface InspectionPageData {
+    heroBadge?: string;
+    heroTitle: string;
+    heroSubtitle?: string;
+    whyChooseUs?: {
+        title: string;
+        description: string;
+        points: string[];
+    };
+    mainImage?: Image;
+    features?: Array<{
+        icon: string;
+        title: string;
+        description: string;
+        color: string;
+    }>;
+    adrGuide?: {
+        badge: string;
+        title: string;
+    };
+    technicalSupport?: {
+        heading: string;
+        description: string;
+        scopeLabel: string;
+        scopeContent: string;
+    };
+    operations?: {
+        badge: string;
+        title: string;
+        items: Array<{
+            number: string;
+            title: string;
+            description: string;
+            subItems: string[];
+        }>;
+    };
+    operationAlertText?: string;
+    requiredDocsBadge?: string;
+    requiredDocsTitle?: string;
 }

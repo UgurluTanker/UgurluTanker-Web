@@ -6,6 +6,9 @@ import { siteSettingsType } from './siteSettings'
 import { galleryType } from './gallery'
 import { regulationType } from './regulation'
 
+import { corporatePageType } from './corporatePage'
+import { inspectionPageType } from './inspectionPage'
+
 export const schema: { types: SchemaTypeDefinition[] } = {
-    types: [homepageType, serviceType, priceItemType, siteSettingsType, galleryType, regulationType],
+    types: [homepageType, serviceType, priceItemType, siteSettingsType, galleryType, regulationType, corporatePageType, inspectionPageType],
 }
