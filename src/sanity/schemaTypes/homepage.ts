@@ -18,11 +18,26 @@ export const homepageType = defineType({
             rows: 3,
         }),
         defineField({
+            name: 'heroSlides',
+            title: 'Hero Slider Slaytları',
+            type: 'array',
+            of: [
+                {
+                    type: 'object',
+                    fields: [
+                        { name: 'title', type: 'string', title: 'Slayt Başlığı' },
+                        { name: 'subtitle', type: 'text', title: 'Slayt Alt Başlığı', rows: 2 },
+                        { name: 'image', type: 'image', title: 'Slayt Görseli', options: { hotspot: true } },
+                    ]
+                }
+            ],
+            validation: (Rule) => Rule.required().min(1),
+        }),
+        defineField({
             name: 'heroImages',
-            title: 'Hero Slider Görselleri',
+            title: 'Hero Slider Görselleri (Eski - Kaldırılacak)',
             type: 'array',
             of: [{ type: 'image', options: { hotspot: true } }],
-            validation: (Rule) => Rule.required().min(1),
         }),
         defineField({
             name: 'quickActions',

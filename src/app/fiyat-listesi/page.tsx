@@ -16,9 +16,9 @@ export default async function PriceListPage() {
         }
         acc[category].push({
             service: item.serviceName,
-            onay: item.onayKurulusuFee || "-",
-            merkez: item.muayeneMerkeziFee || "-",
-            total: item.price || item.totalFee || "-"
+            onay: item.approvalFee || item.onayKurulusuFee || "-",
+            merkez: item.centerFee || item.muayeneMerkeziFee || "-",
+            total: item.totalPrice || item.price || item.totalFee || "-"
         })
         return acc
     }, {})

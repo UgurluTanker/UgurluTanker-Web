@@ -2,28 +2,31 @@ import Link from "next/link"
 import Image from "next/image"
 import { Mail, MapPin, Phone, ShieldCheck } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
-import { SiteSettings } from "@/types/sanity"
+import { SiteSettings, Service } from "@/types/sanity"
 
-const footerLinks = [
-    {
-        title: "Kurumsal", links: [
-            { name: "Hakkımızda", href: "/kurumsal#hakkimizda" },
-            { name: "Misyon & Vizyon", href: "/kurumsal#misyon-vizyon" },
-            { name: "Fiyat Listesi", href: "/fiyat-listesi" },
-        ]
-    },
-    {
-        title: "Hizmetlerimiz", links: [
-            { name: "ADR Periyodik Muayene", href: "/hizmetlerimiz" },
-            { name: "Hacimsel Kalibrasyon", href: "/hizmetlerimiz" },
-            { name: "T9 Belgesi", href: "/hizmetlerimiz" },
-            { name: "Sızdırmazlık Testi", href: "/hizmetlerimiz" },
-        ]
-    },
-]
-
-export function Footer({ settings }: { settings?: SiteSettings }) {
+export function Footer({ settings, services }: { settings?: SiteSettings, services?: Service[] }) {
     const currentYear = new Date().getFullYear()
+
+    const dynamicServiceLinks = services?.slice(0, 5).map(service => ({
+        name: service.title,
+        href: "/hizmetlerimiz" // Or specific slug if implemented
+    })) || []
+
+    const footerGroups = [
+        {
+            title: "Kurumsal", links: [
+                { name: "Hakkımızda", href: "/kurumsal#hakkimizda" },
+                { name: "Misyon & Vizyon", href: "/kurumsal#misyon-vizyon" },
+                { name: "Fiyat Listesi", href: "/fiyat-listesi" },
+            ]
+        },
+        {
+            title: "Hizmetlerimiz", links: dynamicServiceLinks.length > 0 ? dynamicServiceLinks : [
+                { name: "ADR Muayene", href: "/hizmetlerimiz" },
+                { name: "T9 Belgesi", href: "/hizmetlerimiz" },
+            ]
+        },
+    ]
 
     const phone1 = settings?.phone1 || "(0262) 335 04 15"
     const mobile = settings?.mobile || "+90 538 774 57 41"
@@ -60,11 +63,11 @@ export function Footer({ settings }: { settings?: SiteSettings }) {
                     </div>
 
                     {/* Quick Links */}
-                    {footerLinks.map((group) => (
+                    {footerGroups.map((group) => (
                         <div key={group.title} className="lg:col-span-2 space-y-6">
                             <h4 className="text-white font-black uppercase tracking-widest text-xs border-l-2 border-primary pl-3">{group.title}</h4>
                             <ul className="space-y-3">
-                                {footerLinks.find(f => f.title === group.title)?.links.map((link) => (
+                                {footerGroups.find(f => f.title === group.title)?.links.map((link) => (
                                     <li key={link.name}>
                                         <Link
                                             href={link.href}

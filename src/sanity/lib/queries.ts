@@ -4,6 +4,11 @@ export const HOMEPAGE_QUERY = groq`*[_type == "homepage"][0]{
   heroTitle,
   heroSubtitle,
   heroImages,
+  heroSlides[] {
+    title,
+    subtitle,
+    image
+  },
   quickActions[] {
     title,
     link,
@@ -115,6 +120,9 @@ export const GALLERY_QUERY = groq`*[_type == "gallery"] | order(order asc, _crea
 
 export const PRICE_LIST_QUERY = groq`*[_type == "priceItem"] | order(order asc, serviceName asc) {
   serviceName,
+  approvalFee,
+  centerFee,
+  totalPrice,
   onayKurulusuFee,
   muayeneMerkeziFee,
   totalFee,

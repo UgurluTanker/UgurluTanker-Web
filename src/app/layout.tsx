@@ -5,8 +5,8 @@ import { Navbar } from "@/components/Navbar"
 import { Footer } from "@/components/Footer"
 
 import { client } from "@/sanity/lib/client"
-import { SITE_SETTINGS_QUERY } from "@/sanity/lib/queries"
-import { SiteSettings } from "@/types/sanity"
+import { SITE_SETTINGS_QUERY, SERVICES_QUERY } from "@/sanity/lib/queries"
+import { SiteSettings, Service } from "@/types/sanity"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -24,7 +24,10 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const settings = await client.fetch<SiteSettings>(SITE_SETTINGS_QUERY)
+  const [settings, services] = await Promise.all([
+    client.fetch<SiteSettings>(SITE_SETTINGS_QUERY),
+    client.fetch<Service[]>(SERVICES_QUERY)
+  ])
 
   return (
     <html lang="tr">
@@ -32,7 +35,7 @@ export default async function RootLayout({
         <div className="flex min-h-screen flex-col">
           <Navbar settings={settings} />
           <main className="flex-1">{children}</main>
-          <Footer settings={settings} />
+          <Footer settings={settings} services={services} />
         </div>
       </body>
     </html>

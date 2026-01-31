@@ -21,7 +21,10 @@ export const regulationType = defineType({
                     { title: 'Gerekli Evraklar (Genel)', value: 'documents_general' },
                     { title: 'Gerekli Evraklar (Eski Tanklar)', value: 'documents_old_tanks' },
                     { title: 'Gerekli Evraklar (ADR T9)', value: 'documents_t9' },
+                    { title: 'Gerekli Evraklar (ADR T9 - Periyodik)', value: 'documents_t9_periodic' },
                     { title: 'Gerekli Evraklar (Taşıt Uygunluk)', value: 'documents_transport' },
+                    { title: 'Gerekli Evraklar (Taşıt Uygunluk - Periyodik)', value: 'documents_transport_periodic' },
+                    { title: 'Gerekli Evraklar (Eski Tanklar - Periyodik)', value: 'documents_old_tanks_periodic' },
                     { title: 'Genel Mevzuat', value: 'general' },
                 ]
             },

@@ -17,7 +17,11 @@ export default async function Home() {
     client.fetch<Service[]>(SERVICES_QUERY)
   ])
 
-  const heroImage = data?.heroImages?.[0] ? urlFor(data.heroImages[0]).url() : "/images/hero-tanker.png"
+  const activeSlide = data?.heroSlides?.[0]
+  const heroImage = activeSlide?.image ? urlFor(activeSlide.image).url() : (data?.heroImages?.[0] ? urlFor(data.heroImages[0]).url() : "/images/hero-tanker.png")
+  const heroTitle = activeSlide?.title || data?.heroTitle || "Güvenle Taşıyın, Standartlara Uyun."
+  const heroSubtitle = activeSlide?.subtitle || data?.heroSubtitle || "Kocaeli'nin öncü tanker muayene ve sertifikalandırma merkezi olarak, ADR standartlarında uzman kadromuzla yanınızdayız."
+
   const mainPhone = settings?.mobile || settings?.phone1 || "0262 335 04 15"
   const dialPhone = mainPhone.replace(/\s+/g, '')
 
@@ -52,26 +56,20 @@ export default async function Home() {
               TSE YETKİLİ MUAYENE MERKEZİ
             </Badge>
             <h1 className="text-5xl md:text-7xl font-black text-white leading-[1.1] tracking-tight text-balance">
-              {data?.heroTitle ? (
+              {heroTitle.includes(',') ? (
                 <>
-                  {data.heroTitle.split(',')[0]},<br />
+                  {heroTitle.split(',')[0]},<br />
                   <span className="text-primary relative inline-block">
-                    {data.heroTitle.split(',')[1] || "Standartlara Uyun."}
+                    {heroTitle.split(',')[1]}
                     <span className="absolute bottom-2 left-0 w-full h-2 bg-primary/30 -z-10 animate-reveal" />
                   </span>
                 </>
               ) : (
-                <>
-                  Güvenle Taşıyın,<br />
-                  <span className="text-primary relative inline-block">
-                    Standartlara Uyun.
-                    <span className="absolute bottom-2 left-0 w-full h-2 bg-primary/30 -z-10 animate-reveal" />
-                  </span>
-                </>
+                heroTitle
               )}
             </h1>
             <p className="text-xl text-slate-300 leading-relaxed max-w-2xl text-balance font-medium">
-              {data?.heroSubtitle || "Kocaeli'nin öncü tanker muayene ve sertifikalandırma merkezi olarak, ADR standartlarında uzman kadromuzla yanınızdayız."}
+              {heroSubtitle}
             </p>
             <div className="flex flex-col sm:flex-row gap-5 pt-6">
               <Button size="lg" className="bg-primary hover:bg-primary/90 text-white font-black text-lg h-16 px-10 group shadow-2xl shadow-primary/40 rounded-2xl transition-all duration-300 hover:scale-105" asChild>

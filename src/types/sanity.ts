@@ -2,6 +2,9 @@ import type { Image, PortableTextBlock } from "sanity"
 
 export interface PriceItem {
     serviceName: string;
+    approvalFee?: string;
+    centerFee?: string;
+    totalPrice?: string;
     onayKurulusuFee?: string;
     muayeneMerkeziFee?: string;
     totalFee?: string;
@@ -45,6 +48,11 @@ export interface HomepageData {
     heroTitle: string;
     heroSubtitle?: string;
     heroImages: Image[];
+    heroSlides?: Array<{
+        title: string;
+        subtitle?: string;
+        image: Image;
+    }>;
     stats?: Array<{
         label: string;
         value: string;

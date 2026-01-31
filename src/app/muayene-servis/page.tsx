@@ -25,7 +25,10 @@ export default async function MuayeneServisPage() {
     const docsGeneral = regulations.find((r: Regulation) => r.category === 'documents_general')?.content || []
     const docsOldTanks = regulations.find((r: Regulation) => r.category === 'documents_old_tanks')?.content || []
     const docsT9 = regulations.find((r: Regulation) => r.category === 'documents_t9')?.content || []
+    const docsT9Periodic = regulations.find((r: Regulation) => r.category === 'documents_t9_periodic')?.content || []
     const docsTransport = regulations.find((r: Regulation) => r.category === 'documents_transport')?.content || []
+    const docsTransportPeriodic = regulations.find((r: Regulation) => r.category === 'documents_transport_periodic')?.content || []
+    const docsOldTanksPeriodic = regulations.find((r: Regulation) => r.category === 'documents_old_tanks_periodic')?.content || []
 
     return (
         <div className="flex flex-col min-h-screen bg-slate-50/50">
@@ -295,11 +298,18 @@ export default async function MuayeneServisPage() {
                                         <div className="bg-white rounded-[2rem] border border-slate-100 shadow-xl p-6 space-y-4">
                                             <p className="text-xs font-black uppercase tracking-widest text-primary">Periyodik Muayene</p>
                                             <ul className="space-y-2 text-sm font-medium text-slate-600">
-                                                <li>• RUHSAT</li>
-                                                <li>• FENNİ MUAYENE RAPORU</li>
-                                                <li>• TEHLİKELİ MADDE SİGORTASI (KAŞE-İMZALI)</li>
-                                                <li>• ESKİ TAŞIT UYGUNLUK SERTİFİKASI</li>
-                                                <li>• TANK MUAYENE SERTİFİKASI</li>
+                                                {docsOldTanksPeriodic.map((doc: { itemTitle: string }, i: number) => (
+                                                    <li key={i}>• {doc.itemTitle}</li>
+                                                ))}
+                                                {docsOldTanksPeriodic.length === 0 && (
+                                                    <>
+                                                        <li>• RUHSAT</li>
+                                                        <li>• FENNİ MUAYENE RAPORU</li>
+                                                        <li>• TEHLİKELİ MADDE SİGORTASI (KAŞE-İMZALI)</li>
+                                                        <li>• ESKİ TAŞIT UYGUNLUK SERTİFİKASI</li>
+                                                        <li>• TANK MUAYENE SERTİFİKASI</li>
+                                                    </>
+                                                )}
                                             </ul>
                                         </div>
                                     </div>
@@ -324,11 +334,18 @@ export default async function MuayeneServisPage() {
                                         <div className="bg-white rounded-[2rem] border border-slate-100 shadow-xl p-6 space-y-4">
                                             <p className="text-xs font-black uppercase tracking-widest text-primary">Periyodik Muayene</p>
                                             <ul className="space-y-2 text-sm font-medium text-slate-600">
-                                                <li>• RUHSAT / FENNİ MUAYENE RAPORU</li>
-                                                <li>• TEHLİKELİ MADDE SİGORTASI</li>
-                                                <li>• ESKİ ADR UYGUNLUK SERTİFİKASI</li>
-                                                <li>• TANK MUAYENE SERTİFİKASI</li>
-                                                <li>• KULLANICI BEYANI (ISLAK İMZALI)</li>
+                                                {docsT9Periodic.map((doc: { itemTitle: string }, i: number) => (
+                                                    <li key={i}>• {doc.itemTitle}</li>
+                                                ))}
+                                                {docsT9Periodic.length === 0 && (
+                                                    <>
+                                                        <li>• RUHSAT / FENNİ MUAYENE RAPORU</li>
+                                                        <li>• TEHLİKELİ MADDE SİGORTASI</li>
+                                                        <li>• ESKİ ADR UYGUNLUK SERTİFİKASI</li>
+                                                        <li>• TANK MUAYENE SERTİFİKASI</li>
+                                                        <li>• KULLANICI BEYANI (ISLAK İMZALI)</li>
+                                                    </>
+                                                )}
                                             </ul>
                                         </div>
                                     </div>
@@ -353,10 +370,17 @@ export default async function MuayeneServisPage() {
                                         <div className="bg-white rounded-[2rem] border border-slate-100 shadow-xl p-6 space-y-4">
                                             <p className="text-xs font-black uppercase tracking-widest text-primary">Periyodik Muayene</p>
                                             <ul className="space-y-2 text-sm font-medium text-slate-600">
-                                                <li>• RUHSAT</li>
-                                                <li>• FENNİ MUAYENE RAPORU</li>
-                                                <li>• TEHLİKELİ MADDE SİGORTASI (KAŞE-İMZALI)</li>
-                                                <li>• ESKİ TAŞIT UYGUNLUK SERTİFİKASI</li>
+                                                {docsTransportPeriodic.map((doc: { itemTitle: string }, i: number) => (
+                                                    <li key={i}>• {doc.itemTitle}</li>
+                                                ))}
+                                                {docsTransportPeriodic.length === 0 && (
+                                                    <>
+                                                        <li>• RUHSAT</li>
+                                                        <li>• FENNİ MUAYENE RAPORU</li>
+                                                        <li>• TEHLİKELİ MADDE SİGORTASI (KAŞE-İMZALI)</li>
+                                                        <li>• ESKİ TAŞIT UYGUNLUK SERTİFİKASI</li>
+                                                    </>
+                                                )}
                                             </ul>
                                         </div>
                                     </div>
