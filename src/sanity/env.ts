@@ -7,7 +7,7 @@ export const dataset = assertValue(
 )
 
 export const projectId = assertValue(
-    process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'y6r5n9u4', // Placeholder project ID
+    process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'yqtlvz9c',
     'Missing environment variable: NEXT_PUBLIC_SANITY_PROJECT_ID'
 )
 

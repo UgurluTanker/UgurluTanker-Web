@@ -1,5 +1,3 @@
-"use client"
-
 import React from "react"
 import { ShieldCheck, Wrench, CheckCircle2, FileText, ArrowRight, Gauge } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -7,6 +5,9 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
 import Image from "next/image"
+import { client } from "@/sanity/lib/client"
+import { REGULATION_QUERY, SITE_SETTINGS_QUERY } from "@/sanity/lib/queries"
+import { Regulation, SiteSettings } from "@/types/sanity"
 
 const features = [
     {
@@ -35,7 +36,21 @@ const features = [
     }
 ]
 
-export default function MuayeneServisPage() {
+export default async function MuayeneServisPage() {
+    const [regulations, settings] = await Promise.all([
+        client.fetch<Regulation[]>(REGULATION_QUERY),
+        client.fetch<SiteSettings>(SITE_SETTINGS_QUERY)
+    ])
+
+    const mainPhone = settings?.mobile || settings?.phone1 || "0262 335 04 15"
+    const dialPhone = mainPhone.replace(/\s+/g, '')
+
+    // Filter regulations by category
+    const schedule = regulations.find((r: Regulation) => r.category === 'adr_schedule')?.content || []
+    const docsGeneral = regulations.find((r: Regulation) => r.category === 'documents_general')?.content || []
+    const docsOldTanks = regulations.find((r: Regulation) => r.category === 'documents_old_tanks')?.content || []
+    const docsT9 = regulations.find((r: Regulation) => r.category === 'documents_t9')?.content || []
+    const docsTransport = regulations.find((r: Regulation) => r.category === 'documents_transport')?.content || []
     return (
         <div className="flex flex-col min-h-screen bg-slate-50/50">
             {/* Hero Section */}
@@ -115,23 +130,22 @@ export default function MuayeneServisPage() {
                             <Badge className="bg-primary/10 text-primary border-none font-extrabold px-6 py-2 tracking-wider">ADR MEVZUAT REHBERİ</Badge>
                             <h2 className="text-3xl md:text-5xl font-black text-slate-900 leading-tight">ADR&apos;li Tankerlerde <br /><span className="text-primary">Muayene Takvimi</span></h2>
                             <div className="space-y-6">
-                                {[
-                                    { title: "ADR'siz Araçların Dönüşümü", desc: "Durum tespit belgesi almış ADR'siz araçların tank muayenesi ve taşıt uygunluk muayenesi firmamızda güvenle yapılmaktadır." },
-                                    { title: "Ara Muayene (3 Yıl)", desc: "ADR'li olan tankerlerin ilk muayene tarihinden itibaren her 3 yılda bir ara muayenesi yapılması zorunludur." },
-                                    { title: "Periyodik Muayene (6 Yıl)", desc: "ADR'li tankerlerin ilk muayene tarihinden itibaren her 6 yılda bir kapsamlı periyodik muayenesi gerçekleştirilmelidir." },
-                                    { title: "İstisnai Muayene", desc: "Ekipman değişimi, tank hasarları veya kaza durumlarında takvim beklemeksizin yapılması gereken acil denetimdir." },
-                                    { title: "Yıllık T9 Muayenesi", desc: "Düzenli olarak her yıl yapılması zorunlu olan araç ADR uygunluk belgesi yenileme işlemidir." }
-                                ].map((item, idx) => (
+                                {schedule.map((item: { itemTitle: string; itemDescription?: string }, idx: number) => (
                                     <div key={idx} className="flex gap-4 group p-4 rounded-2xl hover:bg-white hover:shadow-lg transition-all border border-transparent hover:border-slate-100">
                                         <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center shrink-0 group-hover:bg-primary transition-colors">
                                             <span className="text-white font-black text-sm">{idx + 1}</span>
                                         </div>
                                         <div className="space-y-1">
-                                            <h4 className="font-black text-slate-900">{item.title}</h4>
-                                            <p className="text-sm text-slate-600 font-medium leading-relaxed">{item.desc}</p>
+                                            <h4 className="font-black text-slate-900">{item.itemTitle}</h4>
+                                            <p className="text-sm text-slate-600 font-medium leading-relaxed">{item.itemDescription}</p>
                                         </div>
                                     </div>
                                 ))}
+                                {schedule.length === 0 && (
+                                    <div className="p-8 bg-slate-50 rounded-2xl border-2 border-dashed border-slate-200 text-center">
+                                        <p className="text-slate-400 font-bold">Lütfen Sanity panelinden muayene takvimini doldurun.</p>
+                                    </div>
+                                )}
                             </div>
                         </div>
                         <div className="bg-slate-100 rounded-[3rem] p-8 md:p-12 relative overflow-hidden group">
@@ -149,70 +163,188 @@ export default function MuayeneServisPage() {
                         </div>
                     </div>
 
-                    {/* Required Documents Section */}
-                    <div className="mt-32 bg-slate-900 rounded-[3rem] p-8 md:p-16 text-white relative overflow-hidden group">
-                        <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none group-hover:opacity-10 transition-opacity">
-                            <FileText className="w-64 h-64 rotate-12" />
+                    {/* Operations Section */}
+                    <div className="mt-32">
+                        <div className="text-center mb-16 space-y-4">
+                            <Badge className="bg-primary/10 text-primary border-none font-extrabold px-6 py-2 tracking-wider">HİZMET KAPSAMI</Badge>
+                            <h2 className="text-3xl md:text-5xl font-black text-slate-900 leading-tight">Muayene Merkezinde <br />Yapılan İşlemler</h2>
                         </div>
-                        <div className="relative z-10">
-                            <Badge className="bg-primary hover:bg-primary text-white border-none px-4 py-1 mb-6">HAZIRLIK REHBERİ</Badge>
-                            <h2 className="text-3xl md:text-5xl font-black mb-12 leading-tight">Muayene İçin Gerekli <br /><span className="text-primary">Evrak Listesi</span></h2>
 
-                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                                {/* T9 Documents */}
-                                <div className="space-y-8">
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center">
-                                            <Badge variant="outline" className="text-white border-white/20">T9</Badge>
-                                        </div>
-                                        <h3 className="text-2xl font-black">T9 Uygunluk Belgeleri</h3>
-                                    </div>
-                                    <div className="grid grid-cols-1 gap-4">
-                                        {[
-                                            "Araç Ruhsatı",
-                                            "Güncel Fenni Muayene",
-                                            "Son ADR Uygunluk / Taşıt Uygunluk Belgesi",
-                                            "Tehlikeli Madde Sigorta Poliçesi",
-                                            "Güncel Muayene Sertifikası"
-                                        ].map((doc, idx) => (
-                                            <div key={idx} className="flex gap-4 p-5 bg-white/5 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors group">
-                                                <div className="w-8 h-8 bg-primary/20 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-primary transition-colors">
-                                                    <CheckCircle2 className="h-4 w-4 text-primary group-hover:text-white" />
-                                                </div>
-                                                <span className="font-bold text-slate-300 group-hover:text-white transition-colors">{doc}</span>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <Card className="border-none shadow-xl rounded-[2.5rem] bg-white p-8 space-y-6 hover:translate-y-[-10px] transition-all duration-500">
+                                <div className="w-16 h-16 bg-slate-900 rounded-2xl flex items-center justify-center text-white font-black text-xl shadow-lg">1</div>
+                                <h3 className="text-xl font-black text-slate-900 leading-tight">ADR Uygunluk / Taşıt Uygunluk İncelemeleri</h3>
+                                <p className="text-slate-500 text-sm font-medium leading-relaxed italic">
+                                    Araçların ADR standartlarına uygunluk denetimleri ve belgelendirme süreçleri.
+                                </p>
+                            </Card>
+
+                            <Card className="border-none shadow-xl rounded-[2.5rem] bg-white p-8 space-y-6 hover:translate-y-[-10px] transition-all duration-500">
+                                <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center text-white font-black text-xl shadow-lg">2</div>
+                                <h3 className="text-xl font-black text-slate-900 leading-tight">Basınçsız Tankların Muayeneleri</h3>
+                                <div className="space-y-2">
+                                    <Badge variant="outline" className="w-full justify-start py-2 border-slate-100 font-bold text-slate-600 px-4">2a - Akaryakıt Tankerleri</Badge>
+                                    <Badge variant="outline" className="w-full justify-start py-2 border-slate-100 font-bold text-slate-600 px-4">2b - Kimyasal Tanklar</Badge>
+                                </div>
+                            </Card>
+
+                            <Card className="border-none shadow-xl rounded-[2.5rem] bg-white p-8 space-y-6 hover:translate-y-[-10px] transition-all duration-500">
+                                <div className="w-16 h-16 bg-slate-900 rounded-2xl flex items-center justify-center text-white font-black text-xl shadow-lg">3</div>
+                                <h3 className="text-xl font-black text-slate-900 leading-tight">Basınçlı Tankların Muayeneleri</h3>
+                                <Badge variant="outline" className="w-full justify-start py-2 border-slate-100 font-bold text-slate-600 px-4">3a - Kimyasal Tanklar</Badge>
+                                <p className="text-slate-500 text-sm font-medium leading-relaxed italic">
+                                    Basınçlı kapların periyodik teknik kontrolleri.
+                                </p>
+                            </Card>
+                        </div>
+
+                        <div className="mt-12 p-8 bg-primary/5 rounded-[2.5rem] border border-primary/10">
+                            <p className="text-slate-800 font-bold leading-relaxed text-center">
+                                2a, 2b ve 3a Tankları ADR koşullarına uygun olarak üretilmiş araçların Periyodik Muayenesi, İstisnai Muayenesi ve Ara muayenesi tarafımızca konusunda uzman personelimiz tarafında <span className="text-primary font-black">TSE TMT Uzmanları eşliğinde</span> yapılmaktadır.
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* Required Documents Section */}
+                    <div className="mt-32">
+                        <div className="text-center mb-16 space-y-4">
+                            <Badge className="bg-slate-900 text-white border-none font-extrabold px-6 py-2 tracking-wider">EVRAK LİSTESİ</Badge>
+                            <h2 className="text-3xl md:text-5xl font-black text-slate-900 leading-tight">Muayene İçin Gerekli <br /><span className="text-primary">Belgeler ve Evraklar</span></h2>
+                        </div>
+
+                        <div className="max-w-5xl mx-auto space-y-12">
+                            {/* General Doc List */}
+                            <div className="bg-white rounded-[3rem] shadow-2xl p-8 md:p-12 border border-slate-100 relative overflow-hidden">
+                                <FileText className="absolute top-0 right-0 w-32 h-32 text-slate-50 -scale-x-100 rotate-12" />
+                                <div className="relative z-10 space-y-8">
+                                    <h3 className="text-2xl font-black text-slate-900 border-l-4 border-primary pl-4">Genel Muayene Belgeleri</h3>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        {docsGeneral.map((doc: { itemTitle: string }, idx: number) => (
+                                            <div key={idx} className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl hover:bg-primary/5 transition-colors group">
+                                                <CheckCircle2 className="h-5 w-5 text-primary shrink-0" />
+                                                <span className="text-sm font-bold text-slate-700 group-hover:text-slate-900">{doc.itemTitle}</span>
                                             </div>
                                         ))}
+                                        {docsGeneral.length === 0 && (
+                                            <div className="col-span-2 p-4 text-slate-400 text-center font-bold italic">
+                                                Henüz genel belge listesi eklenmemiş.
+                                            </div>
+                                        )}
+                                    </div>
+                                    <p className="text-xs text-slate-400 font-medium italic border-t pt-6">
+                                        * Tehlikeli madde taşıyan eski araç ve üst yapıların muayene ve belgelendirilmeleri hakkında yönerge ışığında 2a,2b ve 3a Tankların Periyodik Muayenesi, İstisnai Muayenesi ve Ara muayenesi tarafımızca konusunda uzman personelimiz taradında TSE TMT Uzmanları eşliğinde yapılmaktadır.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                {/* Eski Tanklar */}
+                                <div className="space-y-6">
+                                    <h4 className="text-xl font-black text-slate-900 flex items-center gap-3">
+                                        <div className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center"><Wrench className="h-4 w-4 text-slate-600" /></div>
+                                        Eski Tanklar
+                                    </h4>
+                                    <div className="space-y-4">
+                                        <div className="bg-slate-900 rounded-[2rem] p-6 text-white space-y-4">
+                                            <p className="text-xs font-black uppercase tracking-widest text-primary">İlk Muayene</p>
+                                            <ul className="space-y-2 text-sm font-medium text-slate-400">
+                                                {docsOldTanks.map((doc: { itemTitle: string }, i: number) => (
+                                                    <li key={i}>• {doc.itemTitle}</li>
+                                                ))}
+                                                {docsOldTanks.length === 0 && <li>Lütfen Sanity&apos;den ekleyin</li>}
+                                            </ul>
+                                        </div>
+                                        <div className="bg-white rounded-[2rem] border border-slate-100 shadow-xl p-6 space-y-4">
+                                            <p className="text-xs font-black uppercase tracking-widest text-primary">Periyodik Muayene</p>
+                                            <ul className="space-y-2 text-sm font-medium text-slate-600">
+                                                <li>• RUHSAT</li>
+                                                <li>• FENNİ MUAYENE RAPORU</li>
+                                                <li>• TEHLİKELİ MADDE SİGORTASI (KAŞE-İMZALI)</li>
+                                                <li>• ESKİ TAŞIT UYGUNLUK SERTİFİKASI</li>
+                                                <li>• TANK MUAYENE SERTİFİKASI</li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
 
-                                {/* Tank Inspection Documents */}
-                                <div className="space-y-8">
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center">
-                                            <Badge variant="outline" className="text-white border-white/20">TANK</Badge>
+                                {/* ADR T9 */}
+                                <div className="space-y-6">
+                                    <h4 className="text-xl font-black text-slate-900 flex items-center gap-3">
+                                        <div className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center"><ShieldCheck className="h-4 w-4 text-primary" /></div>
+                                        ADR Uygunluk (T9)
+                                    </h4>
+                                    <div className="space-y-4">
+                                        <div className="bg-slate-900 rounded-[2rem] p-6 text-white space-y-4">
+                                            <p className="text-xs font-black uppercase tracking-widest text-primary">İlk Muayene</p>
+                                            <ul className="space-y-2 text-sm font-medium text-slate-400">
+                                                {docsT9.map((doc: { itemTitle: string }, i: number) => (
+                                                    <li key={i}>• {doc.itemTitle}</li>
+                                                ))}
+                                                {docsT9.length === 0 && <li>Lütfen Sanity&apos;den ekleyin</li>}
+                                            </ul>
                                         </div>
-                                        <h3 className="text-2xl font-black">Tank Muayene Belgeleri</h3>
+                                        <div className="bg-white rounded-[2rem] border border-slate-100 shadow-xl p-6 space-y-4">
+                                            <p className="text-xs font-black uppercase tracking-widest text-primary">Periyodik Muayene</p>
+                                            <ul className="space-y-2 text-sm font-medium text-slate-600">
+                                                <li>• RUHSAT / FENNİ MUAYENE RAPORU</li>
+                                                <li>• TEHLİKELİ MADDE SİGORTASI</li>
+                                                <li>• ESKİ ADR UYGUNLUK SERTİFİKASI</li>
+                                                <li>• TANK MUAYENE SERTİFİKASI</li>
+                                                <li>• KULLANICI BEYANI (ISLAK İMZALI)</li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                    <div className="grid grid-cols-1 gap-4">
-                                        {[
-                                            "Araç Ruhsatı",
-                                            "Güncel Fenni Muayene",
-                                            "Son ADR Uygunluk / Taşıt Uygunluk Belgesi",
-                                            "Tehlikeli Madde Sigorta Poliçesi",
-                                            "Muayene Sertifikası",
-                                            "Resmi Yıkama Belgesi (Kritik)"
-                                        ].map((doc, idx) => (
-                                            <div key={idx} className="flex gap-4 p-5 bg-white/5 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors group">
-                                                <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-blue-500 transition-colors">
-                                                    <CheckCircle2 className="h-4 w-4 text-blue-400 group-hover:text-white" />
-                                                </div>
-                                                <span className="font-bold text-slate-300 group-hover:text-white transition-colors">{doc}</span>
-                                            </div>
-                                        ))}
+                                </div>
+
+                                {/* Taşıt Uygunluk */}
+                                <div className="space-y-6 md:col-span-2">
+                                    <h4 className="text-xl font-black text-slate-900 flex items-center gap-3">
+                                        <div className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center"><CheckCircle2 className="h-4 w-4 text-green-500" /></div>
+                                        Taşıt Uygunluk
+                                    </h4>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                        <div className="bg-slate-900 rounded-[2rem] p-6 text-white space-y-4">
+                                            <p className="text-xs font-black uppercase tracking-widest text-primary">İlk Muayene</p>
+                                            <ul className="space-y-2 text-sm font-medium text-slate-400">
+                                                {docsTransport.map((doc: { itemTitle: string }, i: number) => (
+                                                    <li key={i}>• {doc.itemTitle}</li>
+                                                ))}
+                                                {docsTransport.length === 0 && <li>Lütfen Sanity&apos;den ekleyin</li>}
+                                            </ul>
+                                        </div>
+                                        <div className="bg-white rounded-[2rem] border border-slate-100 shadow-xl p-6 space-y-4">
+                                            <p className="text-xs font-black uppercase tracking-widest text-primary">Periyodik Muayene</p>
+                                            <ul className="space-y-2 text-sm font-medium text-slate-600">
+                                                <li>• RUHSAT</li>
+                                                <li>• FENNİ MUAYENE RAPORU</li>
+                                                <li>• TEHLİKELİ MADDE SİGORTASI (KAŞE-İMZALI)</li>
+                                                <li>• ESKİ TAŞIT UYGUNLUK SERTİFİKASI</li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Call to Action */}
+            <section className="py-20 bg-primary text-white overflow-hidden relative">
+                <div className="absolute inset-0 opacity-10 pointer-events-none">
+                    <ShieldCheck className="absolute -left-20 -top-20 w-96 h-96 rotate-12" />
+                    <Gauge className="absolute -right-20 -bottom-20 w-96 h-96 -rotate-12" />
+                </div>
+                <div className="container relative z-10 text-center space-y-8">
+                    <h2 className="text-3xl md:text-5xl font-black tracking-tight">Muayene ve Belgelendirme İçin Hazırız</h2>
+                    <p className="text-xl opacity-90 font-medium max-w-2xl mx-auto">Uzman kadromuzla tüm teknik süreçlerde yanınızdayız. Hemen iletişime geçin.</p>
+                    <div className="flex flex-col sm:flex-row justify-center gap-4">
+                        <Button size="lg" className="bg-white text-primary hover:bg-slate-100 font-black h-14 px-10 shadow-xl" asChild>
+                            <Link href="/iletisim">BİZE ULAŞIN</Link>
+                        </Button>
+                        <Button size="lg" variant="outline" className="bg-transparent border-white/50 text-white hover:bg-white/10 font-bold h-14 px-10" asChild>
+                            <a href={`tel:${dialPhone}`}>HEMEN ARA</a>
+                        </Button>
                     </div>
                 </div>
             </section>

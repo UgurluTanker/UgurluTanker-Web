@@ -5,6 +5,9 @@ import { Truck, ShieldCheck, ClipboardCheck, Droplets, Gauge, AlertTriangle, Arr
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { client } from "@/sanity/lib/client"
+import { SITE_SETTINGS_QUERY } from "@/sanity/lib/queries"
+import { SiteSettings } from "@/types/sanity"
 
 const services = [
     {
@@ -51,7 +54,11 @@ const services = [
     }
 ]
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+    const settings = await client.fetch<SiteSettings>(SITE_SETTINGS_QUERY)
+    const mainPhone = settings?.mobile || settings?.phone1 || "0262 335 04 15"
+    const dialPhone = mainPhone.replace(/\s+/g, '')
+
     return (
         <div className="flex flex-col min-h-screen">
             {/* Header Section */}
@@ -107,7 +114,7 @@ export default function ServicesPage() {
                                             ))}
                                         </div>
                                     </div>
-                                    <Button className="w-full bg-slate-100 hover:bg-primary hover:text-white text-slate-900 font-bold group/btn transition-all rounded-xl h-12" asChild>
+                                    <Button className="w-full bg-white hover:bg-primary hover:text-white text-slate-900 font-bold group/btn transition-all rounded-xl h-12 shadow-sm border border-slate-100" asChild>
                                         <Link href="/iletisim">
                                             DETAYLI BİLGİ AL <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
                                         </Link>
@@ -132,8 +139,8 @@ export default function ServicesPage() {
                         <Button size="lg" className="bg-white text-primary hover:bg-slate-100 font-black h-14 px-10 shadow-xl" asChild>
                             <Link href="/iletisim">BİZE ULAŞIN</Link>
                         </Button>
-                        <Button size="lg" variant="outline" className="border-white/50 text-white hover:bg-white/10 font-bold h-14 px-10" asChild>
-                            <Link href="tel:02623350415">HEMEN ARA</Link>
+                        <Button size="lg" variant="outline" className="bg-transparent border-white/50 text-white hover:bg-white/10 font-bold h-14 px-10" asChild>
+                            <a href={`tel:${dialPhone}`}>HEMEN ARA</a>
                         </Button>
                     </div>
                 </div>

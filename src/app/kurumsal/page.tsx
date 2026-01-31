@@ -1,8 +1,13 @@
 import { Badge } from "@/components/ui/badge"
 import { ShieldCheck, Target, Users, Factory, Quote } from "lucide-react"
 import Image from "next/image"
+import { client } from "@/sanity/lib/client"
+import { SITE_SETTINGS_QUERY } from "@/sanity/lib/queries"
+import { PortableText } from "@portabletext/react"
 
-export default function CorporatePage() {
+export default async function CorporatePage() {
+    const settings = await client.fetch(SITE_SETTINGS_QUERY)
+
     return (
         <div className="flex flex-col min-h-screen bg-white overflow-hidden">
             {/* Header Section */}
@@ -16,35 +21,40 @@ export default function CorporatePage() {
                     </Badge>
                     <h1 className="text-4xl md:text-7xl font-black text-white mb-6">Hakkımızda</h1>
                     <p className="text-xl text-slate-400 max-w-2xl mx-auto font-medium leading-relaxed">
-                        Uğurlu Tanker, tehlikeli madde taşımacılığı sektöründe güvenliğin ve uluslararası standartların Kocaeli&apos;deki sarsılmaz kalesidir.
+                        {settings?.companyName || "Uğurlu Tanker"}, tehlikeli madde taşımacılığı sektöründe güvenliğin ve uluslararası standartların Kocaeli&apos;deki sarsılmaz kalesidir.
                     </p>
                 </div>
             </section>
 
             {/* Main Content Overlay */}
-            <section className="relative z-20 -mt-24 pb-24">
+            <section id="hakkimizda" className="relative z-20 -mt-24 pb-24">
                 <div className="container">
                     <div className="bg-white rounded-[3rem] shadow-2xl p-8 md:p-16 border border-slate-100">
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                             <div className="space-y-8 animate-fade-in">
                                 <h2 className="text-3xl md:text-5xl font-black text-slate-900 leading-tight">
-                                    Çeyrek Asırlık Tecrübe, <br />
-                                    <span className="text-primary italic">Milli Standartlar</span>
+                                    1977&apos;den Bugüne <br />
+                                    <span className="text-primary italic">Sektörün Öncüsü</span>
                                 </h2>
-                                <div className="space-y-6">
-                                    <p className="text-slate-600 leading-relaxed text-lg font-medium">
-                                        Kocaeli İzmit merkezli muayene kuruluşumuz, T.C. Ulaştırma ve Altyapı Bakanlığı tarafından yetkilendirilmiş,
-                                        TSE (Türk Standartları Enstitüsü) ile tam koordineli çalışan seçkin bir denetim merkezidir.
-                                    </p>
+                                <div className="space-y-6 prose prose-slate max-w-none">
+                                    {settings?.aboutUs ? (
+                                        <div className="text-slate-600 leading-relaxed text-lg font-medium space-y-4">
+                                            <PortableText value={settings.aboutUs} />
+                                        </div>
+                                    ) : (
+                                        <p className="text-slate-600 leading-relaxed text-lg font-medium">
+                                            Kurulduğu 1977 yılından bugüne kadar tanker üretimini aralıksız sürdüren şirketimiz, kalitesinden taviz vermeden hizmet vermeye devam etmektedir.
+                                        </p>
+                                    )}
+
                                     <div className="bg-slate-50 p-8 rounded-3xl border-l-8 border-primary relative group hover:bg-slate-100 transition-colors">
                                         <Quote className="absolute top-4 right-4 h-12 w-12 text-primary/10 group-hover:text-primary/20 transition-colors" />
-                                        <p className="text-slate-700 font-bold italic leading-relaxed relative z-10">
-                                            &quot;Biz sadece bir muayene merkezi değiliz; biz yollardaki her canın güvenliğini sağlayan bağımsız, tarafsız ve profesyonel bir denetim mekanizmasıyız.&quot;
-                                        </p>
+                                        <div className="space-y-4 relative z-10">
+                                            <p className="text-slate-700 font-bold italic leading-relaxed">
+                                                &quot;Güvenilirlik, işi zamanında teslim etme prensibi ve kaliteden taviz vermeden tanker üretimini sürdürüyoruz.&quot;
+                                            </p>
+                                        </div>
                                     </div>
-                                    <p className="text-slate-600 leading-relaxed font-medium">
-                                        Amacımız, tankerlerin ve taşıma ünitelerinin teknik standartlara tam uyumunu sağlayarak, çevre risklerini ve kaza olasılıklarını en aza indirmektir. Bağımsızlık ilkemizden asla ödün vermeden çalışıyoruz.
-                                    </p>
                                 </div>
                             </div>
                             <div className="relative aspect-square rounded-[2.5rem] overflow-hidden shadow-2xl group animate-fade-in shadow-primary/10">
@@ -59,7 +69,7 @@ export default function CorporatePage() {
                         </div>
 
                         {/* Mission & Vision Section */}
-                        <div className="mt-24 grid grid-cols-1 md:grid-cols-2 gap-12 bg-slate-900 rounded-[3rem] p-8 md:p-16 text-white relative overflow-hidden">
+                        <div id="misyon-vizyon" className="mt-24 grid grid-cols-1 md:grid-cols-2 gap-12 bg-slate-900 rounded-[3rem] p-8 md:p-16 text-white relative overflow-hidden">
                             <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none">
                                 <Target className="w-64 h-64" />
                             </div>
@@ -67,18 +77,14 @@ export default function CorporatePage() {
                                 <Badge className="bg-primary hover:bg-primary text-white border-none px-4 py-1">VİZYONUMUZ</Badge>
                                 <h3 className="text-3xl font-black tracking-tight">Geleceği Güven<br /><span className="text-primary">Üzerine İnşa Ediyoruz</span></h3>
                                 <p className="text-slate-300 leading-relaxed font-medium">
-                                    Türkiye genelinde tanker muayene ve ADR belgelendirme süreçlerinde dijital dönüşümü öncüleyerek,
-                                    sektörde standartları belirleyen, en güvenilir ve en hızlı çözüm ortağı olmayı hedefliyoruz.
-                                    İnovatif test yöntemlerimizle yolların güvenliğini yarına taşıyoruz.
+                                    {settings?.vision || "Türkiye genelinde tanker muayene ve ADR belgelendirme süreçlerinde dijital dönüşümü öncüleyerek, sektörde standartları belirleyen çözüm ortağı olmayı hedefliyoruz."}
                                 </p>
                             </div>
                             <div className="space-y-6 relative z-10 border-t md:border-t-0 md:border-l border-white/10 pt-8 md:pt-0 md:pl-12">
                                 <Badge className="bg-slate-700 hover:bg-slate-700 text-white border-none px-4 py-1">MİSYONUMUZ</Badge>
                                 <h3 className="text-3xl font-black tracking-tight">Her Detayda<br /><span className="text-primary">Emniyet Odağı</span></h3>
                                 <p className="text-slate-300 leading-relaxed font-medium">
-                                    Bağımsızlık, tarafsızlık ve dürüstlük ilkelerinden ödün vermeden; uzman kadromuz ve modern altyapımızla
-                                    tankerlerin teknik uygunluğunu denetleyerek, çevre kirliliğini önlemek ve karayolu taşıma güvenliğini
-                                    en üst seviyeye çıkarmak için var gücümüzle çalışıyoruz.
+                                    {settings?.mission || "Bağımsızlık, tarafsızlık ve dürüstlük ilkelerinden ödün vermeden; uzman kadromuz ve modern altyapımızla karayolu taşıma güvenliğini en üst seviyeye çıkarmak için çalışıyoruz."}
                                 </p>
                             </div>
                         </div>

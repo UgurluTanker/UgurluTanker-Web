@@ -16,6 +16,7 @@ import {
     navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 import { cn } from "@/lib/utils"
+import { SiteSettings } from "@/types/sanity"
 
 const navLinks = [
     { name: "Anasayfa", href: "/" },
@@ -23,8 +24,8 @@ const navLinks = [
         name: "Kurumsal",
         href: "/kurumsal",
         subItems: [
-            { name: "Hakkımızda", href: "/kurumsal" },
-            { name: "Misyon & Vizyon", href: "/kurumsal" },
+            { name: "Hakkımızda", href: "/kurumsal#hakkimizda" },
+            { name: "Misyon & Vizyon", href: "/kurumsal#misyon-vizyon" },
         ]
     },
     { name: "Hizmetlerimiz", href: "/hizmetlerimiz" },
@@ -34,9 +35,14 @@ const navLinks = [
     { name: "İletişim", href: "/iletisim" },
 ]
 
-export function Navbar() {
+export function Navbar({ settings }: { settings?: SiteSettings }) {
     const [isOpen, setIsOpen] = React.useState(false)
     const [isScrolled, setIsScrolled] = React.useState(false)
+
+    const phone1 = settings?.phone1 || "0262 335 04 15"
+    const mobile = settings?.mobile || "+90 538 774 57 41"
+    const dial1 = phone1.replace(/\s+/g, '')
+    const dialMob = mobile.replace(/\s+/g, '')
 
     React.useEffect(() => {
         const handleScroll = () => {
@@ -162,8 +168,11 @@ export function Navbar() {
                                 </div>
                                 <div className="p-8 bg-slate-50 mt-auto">
                                     <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-4">Hızlı İletişim</p>
-                                    <a href="tel:02623350415" className="flex items-center text-primary font-black text-xl mb-1 transition-transform active:scale-95">0262 335 04 15</a>
-                                    <p className="text-xs text-slate-600 leading-relaxed font-bold">Sanayi Mh. İzmit San. Sit. 13. Cadde No: 116 İZMİT</p>
+                                    <div className="space-y-2 mb-4">
+                                        <a href={`tel:${dial1}`} className="flex items-center text-slate-900 font-black text-lg transition-transform active:scale-95 leading-none">{phone1}</a>
+                                        <a href={`tel:${dialMob}`} className="flex items-center text-primary font-black text-xl transition-transform active:scale-95 leading-none">{mobile}</a>
+                                    </div>
+                                    <p className="text-xs text-slate-600 leading-relaxed font-bold">{settings?.address || "Sanayi Mh. İzmit San. Sit. 13. Cadde No: 116 İZMİT"}</p>
                                 </div>
                             </div>
                         </SheetContent>

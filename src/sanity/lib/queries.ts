@@ -8,6 +8,10 @@ export const HOMEPAGE_QUERY = groq`*[_type == "homepage"][0]{
     title,
     link,
     icon
+  },
+  stats[] {
+    label,
+    value
   }
 }`
 
@@ -21,7 +25,11 @@ export const SITE_SETTINGS_QUERY = groq`*[_type == "siteSettings"][0]{
   email,
   taxInfo,
   logo,
-  socialLinks
+  socialLinks,
+  aboutUs,
+  mission,
+  vision,
+  history
 }`
 
 export const SERVICES_QUERY = groq`*[_type == "service"] | order(title asc) {
@@ -44,8 +52,22 @@ export const GALLERY_QUERY = groq`*[_type == "gallery"] | order(order asc, _crea
   description
 }`
 
-export const PRICE_LIST_QUERY = groq`*[_type == "priceItem"] | order(category asc, serviceName asc) {
+export const PRICE_LIST_QUERY = groq`*[_type == "priceItem"] | order(order asc, serviceName asc) {
   serviceName,
-  price,
-  category
+  onayKurulusuFee,
+  muayeneMerkeziFee,
+  totalFee,
+  category,
+  order
+}`
+
+export const REGULATION_QUERY = groq`*[_type == "regulation"] | order(order asc) {
+  title,
+  category,
+  content[] {
+    itemTitle,
+    itemDescription,
+    isCritical
+  },
+  order
 }`

@@ -39,5 +39,19 @@ export const homepageType = defineType({
                 },
             ],
         }),
+        defineField({
+            name: 'stats',
+            title: 'İstatistikler',
+            type: 'array',
+            of: [
+                {
+                    type: 'object',
+                    fields: [
+                        { name: 'label', type: 'string', title: 'Başlık (Stat)' },
+                        { name: 'value', type: 'string', title: 'Değer (Örn: 25+)' },
+                    ],
+                },
+            ],
+        }),
     ],
 })

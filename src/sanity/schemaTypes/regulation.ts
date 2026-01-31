@@ -18,7 +18,10 @@ export const regulationType = defineType({
             options: {
                 list: [
                     { title: 'ADR Muayene Takvimi', value: 'adr_schedule' },
-                    { title: 'Gerekli Evraklar', value: 'documents' },
+                    { title: 'Gerekli Evraklar (Genel)', value: 'documents_general' },
+                    { title: 'Gerekli Evraklar (Eski Tanklar)', value: 'documents_old_tanks' },
+                    { title: 'Gerekli Evraklar (ADR T9)', value: 'documents_t9' },
+                    { title: 'Gerekli Evraklar (Taşıt Uygunluk)', value: 'documents_transport' },
                     { title: 'Genel Mevzuat', value: 'general' },
                 ]
             },
@@ -32,8 +35,9 @@ export const regulationType = defineType({
                 {
                     type: 'object',
                     fields: [
-                        { name: 'itemTitle', type: 'string', title: 'Madde Başlığı' },
-                        { name: 'itemDescription', type: 'text', title: 'Açıklama' },
+                        { name: 'itemTitle', type: 'string', title: 'Belge Adı / Madde' },
+                        { name: 'itemDescription', type: 'text', title: 'Açıklama (Opsiyonel)' },
+                        { name: 'isCritical', type: 'boolean', title: 'Kritik mi?', initialValue: false },
                     ]
                 }
             ]

@@ -4,8 +4,21 @@ import { ShieldCheck, ClipboardCheck, ArrowRight, CheckCircle2, PhoneCall } from
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { client } from "@/sanity/lib/client"
+import { HOMEPAGE_QUERY, SITE_SETTINGS_QUERY } from "@/sanity/lib/queries"
+import { urlFor } from "@/sanity/lib/image"
+import { SiteSettings, HomepageData } from "@/types/sanity"
 
-export default function Home() {
+export default async function Home() {
+  const [data, settings] = await Promise.all([
+    client.fetch<HomepageData>(HOMEPAGE_QUERY),
+    client.fetch<SiteSettings>(SITE_SETTINGS_QUERY)
+  ])
+
+  const heroImage = data?.heroImages?.[0] ? urlFor(data.heroImages[0]).url() : "/images/hero-tanker.png"
+  const mainPhone = settings?.mobile || settings?.phone1 || "0262 335 04 15"
+  const dialPhone = mainPhone.replace(/\s+/g, '')
+
   return (
     <div className="flex flex-col gap-0 overflow-hidden">
       {/* Hero Section */}
@@ -15,7 +28,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-900/80 to-transparent z-10" />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent z-10" />
           <Image
-            src="/images/hero-tanker.png"
+            src={heroImage}
             alt="Tanker Muayene Merkezi"
             fill
             className="object-cover opacity-60 transition-transform duration-10000 group-hover:scale-110"
@@ -39,23 +52,34 @@ export default function Home() {
               TSE YETKİLİ MUAYENE MERKEZİ
             </Badge>
             <h1 className="text-5xl md:text-7xl font-black text-white leading-[1.1] tracking-tight text-balance">
-              Güvenle Taşıyın,<br />
-              <span className="text-primary relative inline-block">
-                Standartlara Uyun.
-                <span className="absolute bottom-2 left-0 w-full h-2 bg-primary/30 -z-10 animate-reveal" />
-              </span>
+              {data?.heroTitle ? (
+                <>
+                  {data.heroTitle.split(',')[0]},<br />
+                  <span className="text-primary relative inline-block">
+                    {data.heroTitle.split(',')[1] || "Standartlara Uyun."}
+                    <span className="absolute bottom-2 left-0 w-full h-2 bg-primary/30 -z-10 animate-reveal" />
+                  </span>
+                </>
+              ) : (
+                <>
+                  Güvenle Taşıyın,<br />
+                  <span className="text-primary relative inline-block">
+                    Standartlara Uyun.
+                    <span className="absolute bottom-2 left-0 w-full h-2 bg-primary/30 -z-10 animate-reveal" />
+                  </span>
+                </>
+              )}
             </h1>
             <p className="text-xl text-slate-300 leading-relaxed max-w-2xl text-balance font-medium">
-              Kocaeli&apos;nin öncü tanker muayene ve sertifikalandırma merkezi olarak,
-              ADR standartlarında uzman kadromuzla yanınızdayız.
+              {data?.heroSubtitle || "Kocaeli'nin öncü tanker muayene ve sertifikalandırma merkezi olarak, ADR standartlarında uzman kadromuzla yanınızdayız."}
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Button size="lg" className="bg-primary hover:bg-primary/90 text-white font-black text-lg h-16 px-10 group shadow-2xl shadow-primary/30" asChild>
+            <div className="flex flex-col sm:flex-row gap-5 pt-6">
+              <Button size="lg" className="bg-primary hover:bg-primary/90 text-white font-black text-lg h-16 px-10 group shadow-2xl shadow-primary/40 rounded-2xl transition-all duration-300 hover:scale-105" asChild>
                 <Link href="/iletisim">
                   HEMEN RANDEVU AL <ArrowRight className="ml-3 h-6 w-6 transition-transform group-hover:translate-x-1" />
                 </Link>
               </Button>
-              <Button size="lg" variant="outline" className="text-white border-white/20 hover:bg-white/10 h-16 px-10 font-bold backdrop-blur-sm" asChild>
+              <Button size="lg" variant="outline" className="bg-transparent text-white border-white/30 hover:bg-white/10 hover:border-white h-16 px-10 font-bold backdrop-blur-md rounded-2xl transition-all duration-300 hover:scale-105" asChild>
                 <Link href="/hizmetlerimiz">HİZMETLERİMİZ</Link>
               </Button>
             </div>
@@ -78,7 +102,7 @@ export default function Home() {
                   <p className="text-slate-600 font-medium leading-relaxed">Telefonla veya online form üzerinden saniyeler içinde muayene randevunuzu oluşturun.</p>
                 </div>
                 <Button variant="link" className="p-0 h-auto text-primary font-black group-hover:translate-x-1 transition-transform" asChild>
-                  <Link href="/iletisim" className="flex items-center">HEMEN ARA <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                  <a href={`tel:${dialPhone}`} className="flex items-center">HEMEN ARA <ArrowRight className="ml-2 h-4 w-4" /></a>
                 </Button>
               </CardContent>
             </Card>
@@ -191,12 +215,12 @@ export default function Home() {
             </div>
             <div className="container relative z-10">
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 text-center">
-                {[
+                {(data?.stats && data.stats.length > 0 ? data.stats : [
                   { label: "Yıllık Tecrübe", value: "25+" },
                   { label: "Düzenlenen Belge", value: "5000+" },
-                  { label: "Yetkili Personel", value: "15+" },
+                  { label: "Yetkili Personel", value: "10+" },
                   { label: "Müşteri Memnuniyeti", value: "%100" }
-                ].map((stat, idx) => (
+                ]).map((stat: { label: string; value: string }, idx: number) => (
                   <div key={idx} className="space-y-2">
                     <p className="text-4xl md:text-6xl font-black text-primary tracking-tighter">{stat.value}</p>
                     <p className="text-sm md:text-base font-bold text-slate-400 uppercase tracking-widest">{stat.label}</p>

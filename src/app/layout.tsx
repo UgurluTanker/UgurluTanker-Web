@@ -4,25 +4,35 @@ import "./globals.css"
 import { Navbar } from "@/components/Navbar"
 import { Footer } from "@/components/Footer"
 
+import { client } from "@/sanity/lib/client"
+import { SITE_SETTINGS_QUERY } from "@/sanity/lib/queries"
+import { SiteSettings } from "@/types/sanity"
+
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "Uğurlu Tanker | Tanker Muayene & Sertifikalandırma Merkezi",
   description: "Uğurlu Tanker - TSE Sertifikalı Tanker Muayene, ADR Periyodik Muayene ve Belgelendirme Hizmetleri. Kocaeli İzmit Muayene Merkezi.",
+  icons: {
+    icon: "/images/logo-ugurlu.png",
+    apple: "/images/logo-ugurlu.png",
+  },
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const settings = await client.fetch<SiteSettings>(SITE_SETTINGS_QUERY)
+
   return (
     <html lang="tr">
       <body className={inter.className}>
         <div className="flex min-h-screen flex-col">
-          <Navbar />
+          <Navbar settings={settings} />
           <main className="flex-1">{children}</main>
-          <Footer />
+          <Footer settings={settings} />
         </div>
       </body>
     </html>

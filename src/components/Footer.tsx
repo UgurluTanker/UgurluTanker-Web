@@ -1,13 +1,14 @@
 import Link from "next/link"
 import Image from "next/image"
-import { Mail, MapPin, Phone, Info, ShieldCheck } from "lucide-react"
+import { Mail, MapPin, Phone, ShieldCheck } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
+import { SiteSettings } from "@/types/sanity"
 
 const footerLinks = [
     {
         title: "Kurumsal", links: [
-            { name: "Hakkımızda", href: "/kurumsal" },
-            { name: "Muayene & Servis", href: "/muayene-servis" },
+            { name: "Hakkımızda", href: "/kurumsal#hakkimizda" },
+            { name: "Misyon & Vizyon", href: "/kurumsal#misyon-vizyon" },
             { name: "Fiyat Listesi", href: "/fiyat-listesi" },
         ]
     },
@@ -21,8 +22,17 @@ const footerLinks = [
     },
 ]
 
-export function Footer() {
+export function Footer({ settings }: { settings?: SiteSettings }) {
     const currentYear = new Date().getFullYear()
+
+    const phone1 = settings?.phone1 || "(0262) 335 04 15"
+    const mobile = settings?.mobile || "+90 538 774 57 41"
+    const email = settings?.email || "ugurlutanker@hotmail.com.tr"
+    const address = settings?.address || "Sanayi Mh. İzmit San. Sit. 13. Cadde 318. Blok No: 116 İZMİT / KOCAELİ"
+    const fax = settings?.fax || "(0262) 335 06 85"
+
+    const dial1 = phone1.replace(/\s+/g, '')
+    const dialMob = mobile.replace(/\s+/g, '')
 
     return (
         <footer className="bg-slate-950 text-slate-300 pt-20 pb-10 border-t-8 border-primary relative overflow-hidden">
@@ -46,10 +56,6 @@ export function Footer() {
                             <p className="text-sm leading-relaxed text-slate-400 font-medium">
                                 UĞURLU TANKER SINAİ GAZLAR İNŞ.TUR.TİC.SAN.LTD.ŞTİ olarak, tehlikeli madde taşımacılığı sektöründe güvenliğin garantisiyiz.
                             </p>
-                            <div className="flex items-center space-x-3 text-xs font-bold text-slate-500 uppercase tracking-widest bg-slate-900/50 p-4 rounded-xl border border-slate-800">
-                                <Info className="h-5 w-5 text-primary shrink-0" />
-                                <span>Tepecik V.D: 886 025 6288</span>
-                            </div>
                         </div>
                     </div>
 
@@ -58,7 +64,7 @@ export function Footer() {
                         <div key={group.title} className="lg:col-span-2 space-y-6">
                             <h4 className="text-white font-black uppercase tracking-widest text-xs border-l-2 border-primary pl-3">{group.title}</h4>
                             <ul className="space-y-3">
-                                {group.links.map((link) => (
+                                {footerLinks.find(f => f.title === group.title)?.links.map((link) => (
                                     <li key={link.name}>
                                         <Link
                                             href={link.href}
@@ -78,18 +84,28 @@ export function Footer() {
                         <div className="space-y-4">
                             <div className="flex items-start space-x-3 group">
                                 <MapPin className="h-5 w-5 text-primary shrink-0 mt-0.5 group-hover:scale-110 transition-transform" />
-                                <span className="text-sm leading-relaxed">Sanayi Mh. İzmit San. Sit. 13. Cadde 318. Blok No: 116 İZMİT / KOCAELİ</span>
+                                <span className="text-sm leading-relaxed">{address}</span>
                             </div>
                             <div className="flex items-center space-x-3 group">
                                 <Phone className="h-5 w-5 text-primary shrink-0 group-hover:scale-110 transition-transform" />
                                 <div className="text-sm font-bold flex flex-col">
-                                    <a href="tel:02623350415" className="hover:text-primary transition-colors">(0262) 335 04 15</a>
-                                    <a href="tel:02623350685" className="hover:text-primary transition-colors">(0262) 335 06 85</a>
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-[10px] text-slate-500 uppercase">Tel:</span>
+                                        <a href={`tel:${dial1}`} className="hover:text-primary transition-colors">{phone1}</a>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-[10px] text-slate-500 uppercase">Fax:</span>
+                                        <span className="text-slate-300 font-bold">{fax}</span>
+                                    </div>
                                 </div>
+                            </div>
+                            <div className="flex items-center space-x-3 group text-primary">
+                                <Phone className="h-5 w-5 shrink-0 group-hover:scale-110 transition-transform" />
+                                <a href={`tel:${dialMob}`} className="text-sm font-black">{mobile}</a>
                             </div>
                             <div className="flex items-center space-x-3 group">
                                 <Mail className="h-5 w-5 text-primary shrink-0 group-hover:scale-110 transition-transform" />
-                                <a href="mailto:ugurlutanker@hotmail.com.tr" className="text-sm hover:text-primary transition-colors lowercase">ugurlutanker@hotmail.com.tr</a>
+                                <a href={`mailto:${email}`} className="text-sm hover:text-primary transition-colors lowercase">{email}</a>
                             </div>
                         </div>
                         <div className="pt-4 flex items-center gap-4 grayscale opacity-40">
@@ -104,7 +120,7 @@ export function Footer() {
                 <div className="flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-slate-500">
                     <div className="flex items-center gap-2">
                         <ShieldCheck className="h-4 w-4 text-primary" />
-                        <span>© {currentYear} Uğurlu Tanker. Tüm hakları saklıdır.</span>
+                        <span>© {currentYear} {settings?.companyName || "Uğurlu Tanker"}. Tüm hakları saklıdır.</span>
                     </div>
                     <div className="text-center md:text-right">
                         Kocaeli Tanker Muayene, Test ve Sertifikalandırma Merkezi
