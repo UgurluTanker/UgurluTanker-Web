@@ -35,11 +35,6 @@ export default function PrivacyPage() {
                             </p>
                         </section>
 
-                        <section className="space-y-4 border-t pt-8">
-                            <p className="text-sm italic">
-                                * Bu metin bir taslaktır. Şirketinizin özel yasal gereksinimleri için hukuk danışmanınıza başvurmanızı öneririz.
-                            </p>
-                        </section>
                     </div>
                 </div>
             </div>

@@ -1,39 +1,22 @@
 import Link from "next/link"
 import Image from "next/image"
-import { Mail, MapPin, Phone, ShieldCheck, Facebook, Instagram } from "lucide-react"
+import { Mail, MapPin, Phone, ShieldCheck, Facebook, Instagram, Linkedin, MessageCircle } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
 import { SiteSettings, Service } from "@/types/sanity"
 
 export function Footer({ settings, services }: { settings?: SiteSettings, services?: Service[] }) {
     const currentYear = new Date().getFullYear()
 
-    const dynamicServiceLinks = services?.slice(0, 5).map(service => ({
-        name: service.title,
-        href: "/hizmetlerimiz" // Or specific slug if implemented
-    })) || []
+    // Remove duplicates and limit to 5
+    const uniqueServices = Array.from(new Set(services?.map(s => s.title)))
+        .map(title => services?.find(s => s.title === title))
+        .filter(Boolean)
+        .slice(0, 5)
 
-    const footerGroups = [
-        {
-            title: "Kurumsal", links: [
-                { name: "Hakkımızda", href: "/kurumsal#hakkimizda" },
-                { name: "Misyon & Vizyon", href: "/kurumsal#misyon-vizyon" },
-                { name: "Fiyat Listesi", href: "/fiyat-listesi" },
-            ]
-        },
-        {
-            title: "Hizmetlerimiz", links: dynamicServiceLinks.length > 0 ? dynamicServiceLinks : [
-                { name: "ADR Muayene", href: "/hizmetlerimiz" },
-                { name: "T9 Belgesi", href: "/hizmetlerimiz" },
-            ]
-        },
-        {
-            title: "Yasal", links: [
-                { name: "KVKK Aydınlatma Metni", href: "/kvkk" },
-                { name: "Gizlilik Politikası", href: "/gizlilik-politikasi" },
-                { name: "Çerez Politikası", href: "/gizlilik-politikasi#cerez" },
-            ]
-        },
-    ]
+    const dynamicServiceLinks = uniqueServices.map(service => ({
+        name: service!.title,
+        href: "/hizmetlerimiz"
+    }))
 
     const phone1 = settings?.phone1 || "(0262) 335 04 15"
     const mobile = settings?.mobile || "+90 538 774 57 41"
@@ -45,108 +28,116 @@ export function Footer({ settings, services }: { settings?: SiteSettings, servic
     const dialMob = mobile.replace(/\s+/g, '')
 
     return (
-        <footer className="bg-slate-950 text-slate-300 pt-20 pb-10 border-t-8 border-primary relative overflow-hidden">
-            {/* Background elements */}
-            <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-
+        <footer className="bg-[#020617] text-slate-400 pt-16 pb-8 border-t border-slate-900 relative overflow-hidden">
             <div className="container relative z-10">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8">
-                    {/* Logo & Info */}
-                    <div className="lg:col-span-4 space-y-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
+                    {/* Brand Section */}
+                    <div className="lg:col-span-4 space-y-6">
                         <Link href="/" className="inline-block transition-transform hover:scale-105 active:scale-95">
                             <Image
                                 src="/images/logo-ugurlu.png"
                                 alt="Uğurlu Tanker"
-                                width={300}
-                                height={80}
-                                className="h-24 w-auto object-contain brightness-0 invert"
+                                width={240}
+                                height={60}
+                                className="h-16 w-auto object-contain brightness-0 invert"
                             />
                         </Link>
-                        <div className="space-y-4 max-w-sm">
-                            <p className="text-sm leading-relaxed text-slate-400 font-medium">
-                                UĞURLU TANKER SINAİ GAZLAR İNŞ.TUR.TİC.SAN.LTD.ŞTİ olarak, tehlikeli madde taşımacılığı sektöründe güvenliğin garantisiyiz.
-                            </p>
-                        </div>
-                        {/* Social Media */}
-                        <div className="pt-2 flex items-center gap-4">
+                        <p className="text-xs leading-relaxed max-w-xs font-medium opacity-80 uppercase tracking-wider">
+                            {settings?.companyName || "UĞURLU TANKER LTD. ŞTİ."}
+                            <span className="block mt-2 normal-case tracking-normal opacity-60">
+                                Tehlikeli madde taşımacılığı sektöründe güvenliğin garantisiyiz.
+                            </span>
+                        </p>
+                        <div className="flex items-center gap-3">
                             {settings?.facebookUrl && (
-                                <a href={settings.facebookUrl} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center hover:bg-primary hover:text-white transition-all duration-300 group">
-                                    <Facebook className="h-5 w-5 group-hover:scale-110 transition-transform" />
+                                <a href={settings.facebookUrl} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-lg bg-slate-900 flex items-center justify-center hover:bg-primary hover:text-white transition-all group">
+                                    <Facebook className="h-4 w-4" />
                                 </a>
                             )}
                             {settings?.instagramUrl && (
-                                <a href={settings.instagramUrl} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center hover:bg-primary hover:text-white transition-all duration-300 group">
-                                    <Instagram className="h-5 w-5 group-hover:scale-110 transition-transform" />
+                                <a href={settings.instagramUrl} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-lg bg-slate-900 flex items-center justify-center hover:bg-primary hover:text-white transition-all group">
+                                    <Instagram className="h-4 w-4" />
                                 </a>
                             )}
                         </div>
                     </div>
 
-                    {/* Quick Links */}
-                    {footerGroups.map((group) => (
-                        <div key={group.title} className="lg:col-span-2 space-y-6">
-                            <h4 className="text-white font-black uppercase tracking-widest text-xs border-l-2 border-primary pl-3">{group.title}</h4>
-                            <ul className="space-y-3">
-                                {footerGroups.find(f => f.title === group.title)?.links.map((link) => (
-                                    <li key={link.name}>
-                                        <Link
-                                            href={link.href}
-                                            className="text-sm hover:text-primary transition-colors hover:translate-x-1 inline-block"
-                                        >
-                                            {link.name}
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    ))}
+                    {/* Links Sections */}
+                    <div className="lg:col-span-2 space-y-5">
+                        <h4 className="text-white font-black uppercase tracking-widest text-[10px] border-l-2 border-primary pl-3">Kurumsal</h4>
+                        <ul className="space-y-2 text-xs">
+                            <li><Link href="/kurumsal#hakkimizda" className="hover:text-primary transition-colors">Hakkımızda</Link></li>
+                            <li><Link href="/kurumsal#misyon-vizyon" className="hover:text-primary transition-colors">Misyon & Vizyon</Link></li>
+                            <li><Link href="/fiyat-listesi" className="hover:text-primary transition-colors">Fiyat Listesi</Link></li>
+                        </ul>
+                    </div>
 
-                    {/* Contact Details */}
-                    <div className="lg:col-span-4 space-y-6">
-                        <h4 className="text-white font-black uppercase tracking-widest text-xs border-l-2 border-primary pl-3">İletişim</h4>
-                        <div className="space-y-4">
-                            <div className="flex items-start space-x-3 group">
-                                <MapPin className="h-5 w-5 text-primary shrink-0 mt-0.5 group-hover:scale-110 transition-transform" />
-                                <span className="text-sm leading-relaxed">{address}</span>
+                    <div className="lg:col-span-2 space-y-5">
+                        <h4 className="text-white font-black uppercase tracking-widest text-[10px] border-l-2 border-primary pl-3">Hizmetler</h4>
+                        <ul className="space-y-2 text-xs">
+                            {dynamicServiceLinks.length > 0 ? (
+                                dynamicServiceLinks.map(link => (
+                                    <li key={link.name}><Link href={link.href} className="hover:text-primary transition-colors">{link.name}</Link></li>
+                                ))
+                            ) : (
+                                <>
+                                    <li><Link href="/hizmetlerimiz" className="hover:text-primary transition-colors">ADR Muayene</Link></li>
+                                    <li><Link href="/hizmetlerimiz" className="hover:text-primary transition-colors">T9 Belgesi</Link></li>
+                                </>
+                            )}
+                        </ul>
+                    </div>
+
+                    <div className="lg:col-span-4 space-y-5">
+                        <h4 className="text-white font-black uppercase tracking-widest text-[10px] border-l-2 border-primary pl-3">İletişim</h4>
+                        <div className="space-y-3 text-xs">
+                            <div className="flex items-start gap-3">
+                                <MapPin className="h-4 w-4 text-primary shrink-0 mt-0.5" />
+                                <span className="leading-relaxed">{address}</span>
                             </div>
-                            <div className="flex items-center space-x-3 group">
-                                <Phone className="h-5 w-5 text-primary shrink-0 group-hover:scale-110 transition-transform" />
-                                <div className="text-sm font-bold flex flex-col">
-                                    <div className="flex items-center gap-2">
-                                        <span className="text-[10px] text-slate-500 uppercase">Tel:</span>
-                                        <a href={`tel:${dial1}`} className="hover:text-primary transition-colors">{phone1}</a>
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                        <span className="text-[10px] text-slate-500 uppercase">Fax:</span>
-                                        <span className="text-slate-300 font-bold">{fax}</span>
-                                    </div>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-1">
+                                    <span className="text-[9px] text-slate-500 uppercase font-black block">Telefon / Fax</span>
+                                    <a href={`tel:${dial1}`} className="hover:text-primary text-slate-300 font-bold">{phone1}</a>
+                                    <p className="opacity-60">{fax}</p>
+                                </div>
+                                <div className="space-y-1 text-primary">
+                                    <span className="text-[9px] text-slate-500 uppercase font-black block">7/24 Destek</span>
+                                    <a href={`tel:${dialMob}`} className="font-black text-sm">{mobile}</a>
                                 </div>
                             </div>
-                            <div className="flex items-center space-x-3 group text-primary">
-                                <Phone className="h-5 w-5 shrink-0 group-hover:scale-110 transition-transform" />
-                                <a href={`tel:${dialMob}`} className="text-sm font-black">{mobile}</a>
+                            <div className="flex items-center gap-3 pt-1">
+                                <Mail className="h-4 w-4 text-primary shrink-0" />
+                                <a href={`mailto:${email}`} className="hover:text-primary transition-colors lowercase font-bold text-slate-300">{email}</a>
                             </div>
-                            <div className="flex items-center space-x-3 group">
-                                <Mail className="h-5 w-5 text-primary shrink-0 group-hover:scale-110 transition-transform" />
-                                <a href={`mailto:${email}`} className="text-sm hover:text-primary transition-colors lowercase">{email}</a>
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-4 pt-4 grayscale opacity-40">
-                            <Image src="/images/logo-tse.png" alt="TSE" width={60} height={30} className="h-8 w-auto invert" />
-                            <Image src="/images/logo-tmt.png" alt="TMT" width={60} height={30} className="h-8 w-auto invert" />
                         </div>
                     </div>
                 </div>
 
-                <Separator className="my-12 bg-slate-800" />
+                <Separator className="my-10 bg-slate-900" />
 
-                <div className="flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-slate-500">
-                    <div className="flex items-center gap-2">
-                        <ShieldCheck className="h-4 w-4 text-primary" />
+                <div className="flex flex-col lg:flex-row justify-between items-center gap-6 text-[9px] font-bold uppercase tracking-[2px] text-slate-500">
+                    <div className="flex items-center gap-2 order-2 lg:order-1">
+                        <ShieldCheck className="h-3.5 w-3.5 text-primary" />
                         <span>© {currentYear} {settings?.companyName || "Uğurlu Tanker"}. Tüm hakları saklıdır.</span>
                     </div>
-                    <div className="text-center md:text-right">
-                        Kocaeli Tanker Muayene, Test ve Sertifikalandırma Merkezi
+
+                    <div className="order-1 lg:order-2 flex items-center gap-3 bg-slate-900 px-4 py-2 rounded-full border border-slate-800 transition-all hover:border-primary/30 group">
+                        <span className="opacity-60 tracking-widest">DESIGNED BY</span>
+                        <span className="text-slate-300 font-black group-hover:text-primary transition-colors tracking-normal">FURKAN YURTSEVEN</span>
+                        <div className="flex items-center gap-2 border-l border-slate-800 pl-3">
+                            <a href="https://linkedin.com/in/furkanyurtseven/" target="_blank" rel="noopener noreferrer" title="LinkedIn" className="hover:text-primary transition-colors">
+                                <Linkedin className="h-3 w-3" />
+                            </a>
+                            <a href="https://wa.me/905050859057" target="_blank" rel="noopener noreferrer" title="WhatsApp" className="hover:text-primary transition-colors">
+                                <MessageCircle className="h-3 w-3" />
+                            </a>
+                        </div>
+                    </div>
+
+                    <div className="flex items-center gap-4 order-3 opacity-40 grayscale hover:grayscale-0 transition-all">
+                        <Image src="/images/logo-tse.png" alt="TSE" width={40} height={20} className="h-5 w-auto invert" />
+                        <Image src="/images/logo-tmt.png" alt="TMT" width={40} height={20} className="h-5 w-auto invert" />
                     </div>
                 </div>
             </div>
