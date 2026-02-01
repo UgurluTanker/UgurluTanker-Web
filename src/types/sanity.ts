@@ -34,6 +34,8 @@ export interface SiteSettings {
     email?: string;
     taxInfo?: string;
     logo?: Image;
+    facebookUrl?: string;
+    instagramUrl?: string;
     socialLinks?: Array<{
         platform: string;
         url: string;
@@ -134,6 +136,11 @@ export interface InspectionPageData {
     operationAlertText?: string;
     requiredDocsBadge?: string;
     requiredDocsTitle?: string;
+    requiredDocsSection?: {
+        badge: string;
+        title: string;
+        content: PortableTextBlock[];
+    };
 }
 
 export interface PriceListPageData {

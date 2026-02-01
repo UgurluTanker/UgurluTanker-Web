@@ -3,6 +3,7 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 import { Navbar } from "@/components/Navbar"
 import { Footer } from "@/components/Footer"
+import { CookieBanner } from "@/components/CookieBanner"
 
 import { client } from "@/sanity/lib/client"
 import { SITE_SETTINGS_QUERY, SERVICES_QUERY } from "@/sanity/lib/queries"
@@ -38,6 +39,7 @@ export default async function RootLayout({
           <Navbar settings={settings} />
           <main className="flex-1">{children}</main>
           <Footer settings={settings} services={services} />
+          <CookieBanner />
         </div>
       </body>
     </html>

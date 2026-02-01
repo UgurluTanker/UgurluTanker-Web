@@ -1,6 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
-import { Mail, MapPin, Phone, ShieldCheck } from "lucide-react"
+import { Mail, MapPin, Phone, ShieldCheck, Facebook, Instagram } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
 import { SiteSettings, Service } from "@/types/sanity"
 
@@ -26,6 +26,13 @@ export function Footer({ settings, services }: { settings?: SiteSettings, servic
                 { name: "T9 Belgesi", href: "/hizmetlerimiz" },
             ]
         },
+        {
+            title: "Yasal", links: [
+                { name: "KVKK Aydınlatma Metni", href: "/kvkk" },
+                { name: "Gizlilik Politikası", href: "/gizlilik-politikasi" },
+                { name: "Çerez Politikası", href: "/gizlilik-politikasi#cerez" },
+            ]
+        },
     ]
 
     const phone1 = settings?.phone1 || "(0262) 335 04 15"
@@ -45,7 +52,7 @@ export function Footer({ settings, services }: { settings?: SiteSettings, servic
             <div className="container relative z-10">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8">
                     {/* Logo & Info */}
-                    <div className="lg:col-span-5 space-y-8">
+                    <div className="lg:col-span-4 space-y-8">
                         <Link href="/" className="inline-block transition-transform hover:scale-105 active:scale-95">
                             <Image
                                 src="/images/logo-ugurlu.png"
@@ -59,6 +66,19 @@ export function Footer({ settings, services }: { settings?: SiteSettings, servic
                             <p className="text-sm leading-relaxed text-slate-400 font-medium">
                                 UĞURLU TANKER SINAİ GAZLAR İNŞ.TUR.TİC.SAN.LTD.ŞTİ olarak, tehlikeli madde taşımacılığı sektöründe güvenliğin garantisiyiz.
                             </p>
+                        </div>
+                        {/* Social Media */}
+                        <div className="pt-2 flex items-center gap-4">
+                            {settings?.facebookUrl && (
+                                <a href={settings.facebookUrl} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center hover:bg-primary hover:text-white transition-all duration-300 group">
+                                    <Facebook className="h-5 w-5 group-hover:scale-110 transition-transform" />
+                                </a>
+                            )}
+                            {settings?.instagramUrl && (
+                                <a href={settings.instagramUrl} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center hover:bg-primary hover:text-white transition-all duration-300 group">
+                                    <Instagram className="h-5 w-5 group-hover:scale-110 transition-transform" />
+                                </a>
+                            )}
                         </div>
                     </div>
 
@@ -82,7 +102,7 @@ export function Footer({ settings, services }: { settings?: SiteSettings, servic
                     ))}
 
                     {/* Contact Details */}
-                    <div className="lg:col-span-3 space-y-6">
+                    <div className="lg:col-span-4 space-y-6">
                         <h4 className="text-white font-black uppercase tracking-widest text-xs border-l-2 border-primary pl-3">İletişim</h4>
                         <div className="space-y-4">
                             <div className="flex items-start space-x-3 group">
@@ -111,7 +131,7 @@ export function Footer({ settings, services }: { settings?: SiteSettings, servic
                                 <a href={`mailto:${email}`} className="text-sm hover:text-primary transition-colors lowercase">{email}</a>
                             </div>
                         </div>
-                        <div className="pt-4 flex items-center gap-4 grayscale opacity-40">
+                        <div className="flex items-center gap-4 pt-4 grayscale opacity-40">
                             <Image src="/images/logo-tse.png" alt="TSE" width={60} height={30} className="h-8 w-auto invert" />
                             <Image src="/images/logo-tmt.png" alt="TMT" width={60} height={30} className="h-8 w-auto invert" />
                         </div>

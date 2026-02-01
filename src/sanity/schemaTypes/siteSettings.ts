@@ -83,8 +83,20 @@ export const siteSettingsType = defineType({
             options: { hotspot: true },
         }),
         defineField({
+            name: 'facebookUrl',
+            title: 'Facebook URL',
+            type: 'url',
+            group: 'social',
+        }),
+        defineField({
+            name: 'instagramUrl',
+            title: 'Instagram URL',
+            type: 'url',
+            group: 'social',
+        }),
+        defineField({
             name: 'socialLinks',
-            title: 'Sosyal Medya Linkleri',
+            title: 'Diğer Sosyal Medya Linkleri',
             type: 'array',
             group: 'social',
             of: [

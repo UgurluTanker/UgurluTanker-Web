@@ -120,5 +120,20 @@ export const inspectionPageType = defineType({
             title: 'Gerekli Evraklar Başlık',
             type: 'string',
         }),
+        defineField({
+            name: 'requiredDocsSection',
+            title: 'Muayene İçin Gerekli Belgeler',
+            type: 'object',
+            fields: [
+                { name: 'badge', title: 'Üst Başlık (Badge)', type: 'string', initialValue: 'BELGELER' },
+                { name: 'title', title: 'Ana Başlık', type: 'string', initialValue: 'Muayene İçin Gerekli Belgeler ve Evraklar' },
+                {
+                    name: 'content',
+                    title: 'Belge Listesi',
+                    type: 'array',
+                    of: [{ type: 'block' }]
+                },
+            ]
+        }),
     ],
 })

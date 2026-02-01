@@ -29,6 +29,8 @@ export const SITE_SETTINGS_QUERY = groq`*[_type == "siteSettings"][0]{
   fax,
   email,
   taxInfo,
+  facebookUrl,
+  instagramUrl,
   logo,
   socialLinks,
   aboutUs,
@@ -108,7 +110,12 @@ export const INSPECTION_PAGE_QUERY = groq`*[_type == "inspectionPage"][0]{
   },
   operationAlertText,
   requiredDocsBadge,
-  requiredDocsTitle
+  requiredDocsTitle,
+  requiredDocsSection {
+    badge,
+    title,
+    content
+  }
 }`
 
 export const GALLERY_QUERY = groq`*[_type == "gallery"] | order(order asc, _createdAt desc) {

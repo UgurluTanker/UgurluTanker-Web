@@ -9,6 +9,7 @@ import { client } from "@/sanity/lib/client"
 import { INSPECTION_PAGE_QUERY, REGULATION_QUERY, SITE_SETTINGS_QUERY } from "@/sanity/lib/queries"
 import { InspectionPageData, Regulation, SiteSettings } from "@/types/sanity"
 import { urlFor } from "@/sanity/lib/image"
+import { PortableText } from "@portabletext/react"
 
 export const dynamic = "force-dynamic";
 
@@ -261,19 +262,27 @@ export default async function MuayeneServisPage() {
                                 <LucideIcons.FileText className="absolute top-0 right-0 w-32 h-32 text-slate-50 -scale-x-100 rotate-12" />
                                 <div className="relative z-10 space-y-8">
                                     <h3 className="text-2xl font-black text-slate-900 border-l-4 border-primary pl-4">Genel Muayene Belgeleri</h3>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        {docsGeneral.map((doc: { itemTitle: string }, idx: number) => (
-                                            <div key={idx} className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl hover:bg-primary/5 transition-colors group">
-                                                <LucideIcons.CheckCircle2 className="h-5 w-5 text-primary shrink-0" />
-                                                <span className="text-sm font-bold text-slate-700 group-hover:text-slate-900">{doc.itemTitle}</span>
-                                            </div>
-                                        ))}
-                                        {docsGeneral.length === 0 && (
-                                            <div className="col-span-2 p-4 text-slate-400 text-center font-bold italic">
-                                                Henüz genel belge listesi eklenmemiş.
-                                            </div>
-                                        )}
-                                    </div>
+
+                                    {inspectionData?.requiredDocsSection?.content ? (
+                                        <div className="prose prose-slate max-w-none prose-p:font-medium prose-p:text-slate-600 prose-li:font-bold prose-li:text-slate-700">
+                                            <PortableText value={inspectionData.requiredDocsSection.content} />
+                                        </div>
+                                    ) : (
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            {docsGeneral.map((doc: { itemTitle: string }, idx: number) => (
+                                                <div key={idx} className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl hover:bg-primary/5 transition-colors group">
+                                                    <LucideIcons.CheckCircle2 className="h-5 w-5 text-primary shrink-0" />
+                                                    <span className="text-sm font-bold text-slate-700 group-hover:text-slate-900">{doc.itemTitle}</span>
+                                                </div>
+                                            ))}
+                                            {docsGeneral.length === 0 && (
+                                                <div className="col-span-2 p-4 text-slate-400 text-center font-bold italic">
+                                                    Henüz genel belge listesi eklenmemiş.
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+
                                     <p className="text-xs text-slate-400 font-medium italic border-t pt-6">
                                         * Tehlikeli madde taşıyan eski araç ve üst yapıların muayene ve belgelendirilmeleri hakkında yönerge ışığında 2a,2b ve 3a Tankların Periyodik Muayenesi, İstisnai Muayenesi ve Ara muayenesi tarafımızca konusunda uzman personelimiz taradında TSE TMT Uzmanları eşliğinde yapılmaktadır.
                                     </p>

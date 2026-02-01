@@ -15,7 +15,7 @@ const singletons = [
         _id: 'siteSettings',
         _type: 'siteSettings',
         companyName: 'UĞURLU TANKER SINAİ GAZLAR İNŞ.TUR.TİC.SAN.LTD.ŞTİ',
-        versionNote: 'ANA YEDEK - TERTEMİZ KURULUM - V4',
+        versionNote: 'ANA YEDEK - FINAL POLISH - V5',
         address: 'Sanayi Mh. İzmit San. Sit.13. Cadde 318. Blok No: 116 İZMİT / KOCAELİ',
         phone1: '(0262) 335 04 15',
         phone2: '(0262) 335 06 85',
@@ -23,8 +23,8 @@ const singletons = [
         fax: '(0262) 335 06 85',
         email: 'ugurlutanker@hotmail.com.tr',
         taxInfo: 'Tepecik V.D: 886 025 6288',
-        mission: "Uluslararası standartlara ve TSE ADR standartlarına uygun ekipman ve yönetim sistemlerini kullanarak müşteri memnuniyetini ön planda tutmak.",
-        vision: "Nitelikli insan kaynaklarımızla sektörde öncü kuruluş olma rolünü devam ettirmek.",
+        facebookUrl: 'https://facebook.com/ugurlutanker',
+        instagramUrl: 'https://instagram.com/ugurlutanker',
         aboutUs: [
             {
                 _key: key(),
@@ -82,6 +82,26 @@ const singletons = [
                 'Hızlı Raporlama ve Belgelendirme'
             ]
         },
+        requiredDocsSection: {
+            badge: 'BELGELER',
+            title: 'Muayene İçin Gerekli Belgeler ve Evraklar',
+            content: [
+                {
+                    _key: key(),
+                    _type: 'block',
+                    children: [
+                        {
+                            _key: key(),
+                            _type: 'span',
+                            text: "1. Araç Tescil Belgesi (Ruhsat)\n2. Önceki Muayene Raporları\n3. Tanker Üretici Sertifikası\n4. ADR Uygunluk Belgesi (Varsa)\n5. Şirket Bilgileri ve Vergi Levhası",
+                            marks: []
+                        }
+                    ],
+                    markDefs: [],
+                    style: 'normal',
+                },
+            ]
+        },
         features: [
             { _key: key(), icon: 'Shield', title: 'TSE Onaylı', description: 'TSE tarafından yetkilendirilmiş muayene merkezi.', color: 'text-primary' }
         ],
@@ -113,6 +133,47 @@ const singletons = [
     }
 ];
 
+const services = [
+    {
+        _id: 'service-periyodik-muayene',
+        _type: 'service',
+        title: 'Periyodik Muayene',
+        slug: { _type: 'slug', current: 'periyodik-muayene' },
+        iconName: 'Shield',
+        shortDescription: 'Tehlikeli madde taşıyan araçların periyodik teknik denetimleri.',
+        description: [
+            {
+                _key: key(),
+                _type: 'block',
+                children: [{ _key: key(), _type: 'span', text: 'Uluslararası standartlarda tanker muayene hizmeti.', marks: [] }],
+                markDefs: [],
+                style: 'normal',
+            }
+        ],
+        features: ['TSE Standartları', 'Hızlı Onay', 'Uzman Kadro'],
+        requiredDocuments: ['Ruhsat', 'Eski Raporlar'],
+    },
+    {
+        _id: 'service-sizdirmazlik',
+        _type: 'service',
+        title: 'Sızdırmazlık Testi',
+        slug: { _type: 'slug', current: 'sizdirmazlik-testi' },
+        iconName: 'Droplets',
+        shortDescription: 'Tank ve tesisat sızdırmazlığının yüksek basınçlı test ekipmanları ile kontrolü.',
+        description: [
+            {
+                _key: key(),
+                _type: 'block',
+                children: [{ _key: key(), _type: 'span', text: 'Basınçlı ve vakumlu sızdırmazlık kontrolleri.', marks: [] }],
+                markDefs: [],
+                style: 'normal',
+            }
+        ],
+        features: ['Yüksek Basınç Testi', 'Sertifikalı Raporlama'],
+        requiredDocuments: ['Tank Sertifikası'],
+    }
+];
+
 async function sync() {
     const token = process.env.SANITY_WRITE_TOKEN || process.argv[2];
     if (!token) {
@@ -121,22 +182,25 @@ async function sync() {
     }
 
     try {
-        console.log('--- STARTING ATOMIC SYNC V4 (CLEANING DRAFTS) ---\n');
+        console.log('--- STARTING CLEAN SYNC V5 ---\n');
 
+        // Sync Singletons
         for (const doc of singletons) {
             console.log(`Syncing singleton: ${doc._id}...`);
-
-            // Overwrite published version
             await client.createOrReplace(doc as any);
-
-            // Atomic overwrite of draft version to ensure Studio UI updates immediately
-            const draftDoc = { ...doc, _id: `drafts.${doc._id}` };
-            await client.createOrReplace(draftDoc as any);
-
-            console.log(`✓ ${doc._id} (Published & Draft) synced.`);
+            await client.createOrReplace({ ...doc, _id: `drafts.${doc._id}` } as any);
+            console.log(`✓ ${doc._id} synced.`);
         }
 
-        console.log('\n--- ATOMIC SYNC V4 COMPLETED ---');
+        // Sync Services
+        for (const service of services) {
+            console.log(`Syncing service: ${service.title}...`);
+            await client.createOrReplace(service as any);
+            await client.createOrReplace({ ...service, _id: `drafts.${service._id}` } as any);
+            console.log(`✓ ${service.title} synced.`);
+        }
+
+        console.log('\n--- MASTER SYNC V5 COMPLETED ---');
     } catch (err: any) {
         console.error('\nSync failed:', err.message);
     }
