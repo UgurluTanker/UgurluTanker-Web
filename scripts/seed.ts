@@ -23,6 +23,11 @@ const singletons = [
         fax: '(0262) 335 06 85',
         email: 'ugurlutanker@hotmail.com.tr',
         taxInfo: 'Tepecik V.D: 886 025 6288',
+        workingHours: [
+            { _key: key(), dayRange: 'Pazartesi - Cuma', hours: '08:30 - 18:00' },
+            { _key: key(), dayRange: 'Cumartesi', hours: '08:30 - 13:00' },
+            { _key: key(), dayRange: 'Pazar', hours: 'Kapalı' },
+        ],
         facebookUrl: 'https://facebook.com/ugurlutanker',
         instagramUrl: 'https://instagram.com/ugurlutanker',
         aboutUs: [

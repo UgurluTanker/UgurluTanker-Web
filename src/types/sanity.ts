@@ -33,6 +33,10 @@ export interface SiteSettings {
     fax?: string;
     email?: string;
     taxInfo?: string;
+    workingHours?: Array<{
+        dayRange: string;
+        hours: string;
+    }>;
     logo?: Image;
     facebookUrl?: string;
     instagramUrl?: string;

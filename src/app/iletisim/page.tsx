@@ -110,18 +110,31 @@ export default async function ContactPage() {
                             </div>
                             <h3 className="text-2xl font-black mb-8 relative z-10">Çalışma Saatlerimiz</h3>
                             <div className="space-y-6 relative z-10">
-                                <div className="flex justify-between items-center border-b border-white/10 pb-4">
-                                    <span className="font-bold text-slate-400">Pazartesi - Cuma</span>
-                                    <span className="font-black text-primary">09:00 - 18:00</span>
-                                </div>
-                                <div className="flex justify-between items-center border-b border-white/10 pb-4">
-                                    <span className="font-bold text-slate-400">Cumartesi</span>
-                                    <span className="font-black text-primary">09:00 - 14:00</span>
-                                </div>
-                                <div className="flex justify-between items-center">
-                                    <span className="font-bold text-slate-400">Pazar</span>
-                                    <span className="font-black text-rose-500 uppercase tracking-widest text-xs">Kapalı</span>
-                                </div>
+                                {settings?.workingHours && settings.workingHours.length > 0 ? (
+                                    settings.workingHours.map((item, idx) => (
+                                        <div key={idx} className={`flex justify-between items-center ${idx !== settings.workingHours!.length - 1 ? 'border-b border-white/10 pb-4' : ''}`}>
+                                            <span className="font-bold text-slate-400">{item.dayRange}</span>
+                                            <span className={`font-black ${item.hours.toLowerCase().includes('kapalı') ? 'text-rose-500 uppercase tracking-widest text-xs' : 'text-primary'}`}>
+                                                {item.hours}
+                                            </span>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <>
+                                        <div className="flex justify-between items-center border-b border-white/10 pb-4">
+                                            <span className="font-bold text-slate-400">Pazartesi - Cuma</span>
+                                            <span className="font-black text-primary">09:00 - 18:00</span>
+                                        </div>
+                                        <div className="flex justify-between items-center border-b border-white/10 pb-4">
+                                            <span className="font-bold text-slate-400">Cumartesi</span>
+                                            <span className="font-black text-primary">09:00 - 14:00</span>
+                                        </div>
+                                        <div className="flex justify-between items-center">
+                                            <span className="font-bold text-slate-400">Pazar</span>
+                                            <span className="font-black text-rose-500 uppercase tracking-widest text-xs">Kapalı</span>
+                                        </div>
+                                    </>
+                                )}
                             </div>
                         </div>
 

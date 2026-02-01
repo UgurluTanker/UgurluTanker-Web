@@ -76,6 +76,26 @@ export const siteSettingsType = defineType({
             initialValue: 'Tepecik V.D: 886 025 6288',
         }),
         defineField({
+            name: 'workingHours',
+            title: 'Çalışma Saatleri',
+            type: 'array',
+            group: 'contact',
+            of: [
+                {
+                    type: 'object',
+                    fields: [
+                        { name: 'dayRange', type: 'string', title: 'Gün Aralığı (Örn: Pazartesi - Cuma)' },
+                        { name: 'hours', type: 'string', title: 'Saat Aralığı (Örn: 08:30 - 18:00)' },
+                    ]
+                }
+            ],
+            initialValue: [
+                { dayRange: 'Pazartesi - Cuma', hours: '08:30 - 17:30' },
+                { dayRange: 'Cumartesi', hours: '08:30 - 13:00' },
+                { dayRange: 'Pazar', hours: 'Kapalı' },
+            ]
+        }),
+        defineField({
             name: 'logo',
             title: 'Site Logosu',
             type: 'image',

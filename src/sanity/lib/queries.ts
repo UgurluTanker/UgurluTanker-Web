@@ -38,6 +38,7 @@ export const SITE_SETTINGS_QUERY = groq`*[_type == "siteSettings"][0]{
   facebookUrl,
   instagramUrl,
   logo,
+  workingHours,
   socialLinks,
   aboutUs,
   mission,

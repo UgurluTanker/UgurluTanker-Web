@@ -11,6 +11,20 @@
             "mobile": "+90 538 774 57 41",
             "fax": "(0262) 335 06 85",
             "email": "ugurlutanker@hotmail.com.tr",
+            "workingHours": [
+                {
+                    "dayRange": "Pazartesi - Cuma",
+                    "hours": "08:30 - 17:30"
+                },
+                {
+                    "dayRange": "Cumartesi",
+                    "hours": "08:30 - 13:00"
+                },
+                {
+                    "dayRange": "Pazar",
+                    "hours": "Kapalı"
+                }
+            ],
             "taxInfo": "Tepecik V.D: 886 025 6288",
             "facebookUrl": "https://facebook.com/ugurlutanker",
             "instagramUrl": "https://instagram.com/ugurlutanker",
