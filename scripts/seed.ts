@@ -65,6 +65,12 @@ const singletons = [
         quickActions: [
             { _key: key(), title: 'Muayene Randevusu', link: '/iletisim', icon: 'Calendar' },
             { _key: key(), title: 'Fiyat Listesi', link: '/fiyat-listesi', icon: 'FileText' },
+        ],
+        featuredServices: [
+            { _type: 'reference', _ref: 'service-adr-t9', _key: key() },
+            { _type: 'reference', _ref: 'service-periyodik-muayene', _key: key() },
+            { _type: 'reference', _ref: 'service-sizdirmazlik', _key: key() },
+            { _type: 'reference', _ref: 'service-basinc-testi', _key: key() },
         ]
     },
     {
@@ -172,6 +178,44 @@ const services = [
         ],
         features: ['Yüksek Basınç Testi', 'Sertifikalı Raporlama'],
         requiredDocuments: ['Tank Sertifikası'],
+    },
+    {
+        _id: 'service-adr-t9',
+        _type: 'service',
+        title: 'ADR / T9 Taşıt Uygunluk',
+        slug: { _type: 'slug', current: 'adr-t9-uygunluk' },
+        iconName: 'Shield',
+        shortDescription: 'Tehlikeli madde taşıyan araçların ADR standartlarına uygunluk belgelendirmesi.',
+        description: [
+            {
+                _key: key(),
+                _type: 'block',
+                children: [{ _key: key(), _type: 'span', text: 'T9 belgesi ve ADR taşıt uygunluk kontrolleri.', marks: [] }],
+                markDefs: [],
+                style: 'normal',
+            }
+        ],
+        features: ['TSE Yetkili', 'Uluslararası Geçerlilik'],
+        requiredDocuments: ['Ruhsat', 'Teknik Çizimler'],
+    },
+    {
+        _id: 'service-basinc-testi',
+        _type: 'service',
+        title: 'Basınç Testi',
+        slug: { _type: 'slug', current: 'basinc-testi' },
+        iconName: 'Activity',
+        shortDescription: 'Tankların mukavemet ve sızdırmazlığının yüksek basınç altında testi.',
+        description: [
+            {
+                _key: key(),
+                _type: 'block',
+                children: [{ _key: key(), _type: 'span', text: 'Hidrolik basınç testleri ve raporlama.', marks: [] }],
+                markDefs: [],
+                style: 'normal',
+            }
+        ],
+        features: ['Güvenli Test Ortamı', 'Hassas Ölçüm'],
+        requiredDocuments: ['Önceki Test Raporları'],
     }
 ];
 
@@ -185,20 +229,20 @@ async function sync() {
     try {
         console.log('--- STARTING CLEAN SYNC V5 ---\n');
 
-        // Sync Singletons
-        for (const doc of singletons) {
-            console.log(`Syncing singleton: ${doc._id}...`);
-            await client.createOrReplace(doc as any);
-            await client.createOrReplace({ ...doc, _id: `drafts.${doc._id}` } as any);
-            console.log(`✓ ${doc._id} synced.`);
-        }
-
-        // Sync Services
+        // Sync Services FIRST (so references from singletons work)
         for (const service of services) {
             console.log(`Syncing service: ${service.title}...`);
             await client.createOrReplace(service as any);
             await client.createOrReplace({ ...service, _id: `drafts.${service._id}` } as any);
             console.log(`✓ ${service.title} synced.`);
+        }
+
+        // Sync Singletons SECOND
+        for (const doc of singletons) {
+            console.log(`Syncing singleton: ${doc._id}...`);
+            await client.createOrReplace(doc as any);
+            await client.createOrReplace({ ...doc, _id: `drafts.${doc._id}` } as any);
+            console.log(`✓ ${doc._id} synced.`);
         }
 
         console.log('\n--- MASTER SYNC V5 COMPLETED ---');

@@ -59,6 +59,12 @@ export interface HomepageData {
         label: string;
         value: string;
     }>;
+    featuredServices?: Array<{
+        title: string;
+        slug: { current: string };
+        iconName?: string;
+        shortDescription?: string;
+    }>;
 }
 
 export interface Service {

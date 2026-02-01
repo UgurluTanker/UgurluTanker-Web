@@ -71,6 +71,24 @@
                     "link": "/fiyat-listesi",
                     "icon": "FileText"
                 }
+            ],
+            "featuredServices": [
+                {
+                    "_type": "reference",
+                    "_ref": "service-adr-t9"
+                },
+                {
+                    "_type": "reference",
+                    "_ref": "service-periyodik-muayene"
+                },
+                {
+                    "_type": "reference",
+                    "_ref": "service-sizdirmazlik"
+                },
+                {
+                    "_type": "reference",
+                    "_ref": "service-basinc-testi"
+                }
             ]
         },
         {
@@ -207,6 +225,43 @@
             ],
             "requiredDocuments": [
                 "Tank Sertifikası"
+            ]
+        },
+        {
+            "_id": "service-adr-t9",
+            "_type": "service",
+            "title": "ADR / T9 Taşıt Uygunluk",
+            "slug": {
+                "_type": "slug",
+                "current": "adr-t9-uygunluk"
+            },
+            "iconName": "Shield",
+            "shortDescription": "Tehlikeli madde taşıyan araçların ADR standartlarına uygunluk belgelendirmesi.",
+            "features": [
+                "TSE Yetkili",
+                "Uluslararası Geçerlilik"
+            ],
+            "requiredDocuments": [
+                "Ruhsat",
+                "Teknik Çizimler"
+            ]
+        },
+        {
+            "_id": "service-basinc-testi",
+            "_type": "service",
+            "title": "Basınç Testi",
+            "slug": {
+                "_type": "slug",
+                "current": "basinc-testi"
+            },
+            "iconName": "Activity",
+            "shortDescription": "Tankların mukavemet ve sızdırmazlığının yüksek basınç altında testi.",
+            "features": [
+                "Güvenli Test Ortamı",
+                "Hassas Ölçüm"
+            ],
+            "requiredDocuments": [
+                "Önceki Test Raporları"
             ]
         }
     ]

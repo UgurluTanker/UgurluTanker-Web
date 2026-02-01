@@ -96,8 +96,8 @@ export default async function Home() {
             <p className="text-slate-600 font-medium leading-relaxed italic">Sektör standartlarında, tam yetkili denetim ve sertifikalandırma çözümleri.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {services.slice(0, 4).map((service, idx) => {
-              const iconToUse = service.iconName || service.icon || "ShieldCheck"
+            {(data?.featuredServices && data.featuredServices.length > 0 ? data.featuredServices : services.slice(0, 4)).map((service, idx) => {
+              const iconToUse = service.iconName || "ShieldCheck"
               const IconComponent = (LucideIcons[iconToUse as keyof typeof LucideIcons] as LucideIcons.LucideIcon) || LucideIcons.ShieldCheck
               return (
                 <Link key={idx} href="/hizmetlerimiz" className="group">

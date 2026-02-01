@@ -17,6 +17,12 @@ export const HOMEPAGE_QUERY = groq`*[_type == "homepage"][0]{
   stats[] {
     label,
     value
+  },
+  "featuredServices": featuredServices[]-> {
+    title,
+    slug,
+    iconName,
+    shortDescription
   }
 }`
 

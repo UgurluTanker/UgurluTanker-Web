@@ -68,5 +68,17 @@ export const homepageType = defineType({
                 },
             ],
         }),
+        defineField({
+            name: 'featuredServices',
+            title: 'Öne Çıkan Hizmetler',
+            type: 'array',
+            of: [
+                {
+                    type: 'reference',
+                    to: [{ type: 'service' }]
+                }
+            ],
+            description: 'Ana sayfada "Öne Çıkan Hizmetlerimiz" bölümünde görünecek hizmetleri seçin ve sıralayın.',
+        }),
     ],
 })
