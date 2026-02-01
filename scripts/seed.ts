@@ -57,9 +57,10 @@ const singletons = [
             }
         ],
         stats: [
-            { _key: key(), label: 'Yıllık Muayene', value: '1500+' },
+            { _key: key(), label: 'Düzenlenen Belge', value: '10.000+' },
             { _key: key(), label: 'Müşteri Memnuniyeti', value: '%100' },
             { _key: key(), label: 'Deneyim', value: '45+ Yıl' },
+            { _key: key(), label: 'Uzman Personel', value: '10+' },
         ],
         quickActions: [
             { _key: key(), title: 'Muayene Randevusu', link: '/iletisim', icon: 'Calendar' },

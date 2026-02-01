@@ -1,0 +1,213 @@
+{
+    "singletons": [
+        {
+            "_id": "siteSettings",
+            "_type": "siteSettings",
+            "companyName": "UĞURLU TANKER SINAİ GAZLAR İNŞ.TUR.TİC.SAN.LTD.ŞTİ",
+            "versionNote": "ANA YEDEK - FINAL POLISH - V5",
+            "address": "Sanayi Mh. İzmit San. Sit.13. Cadde 318. Blok No: 116 İZMİT / KOCAELİ",
+            "phone1": "(0262) 335 04 15",
+            "phone2": "(0262) 335 06 85",
+            "mobile": "+90 538 774 57 41",
+            "fax": "(0262) 335 06 85",
+            "email": "ugurlutanker@hotmail.com.tr",
+            "taxInfo": "Tepecik V.D: 886 025 6288",
+            "facebookUrl": "https://facebook.com/ugurlutanker",
+            "instagramUrl": "https://instagram.com/ugurlutanker",
+            "aboutUs": [
+                {
+                    "_type": "block",
+                    "style": "normal",
+                    "children": [
+                        {
+                            "_type": "span",
+                            "text": "Kurulduğu 1977 yılından 2015 yılına kadar tanker üretimini aralıksız sürdüren şirketimiz, 2015 yılında yeniden yapılanarak güvenirliliğinden, işi zamanında teslim etme prensibinden, kalitesinden taviz vermeden tanker üretimini sürdürmüştür.",
+                            "marks": []
+                        }
+                    ],
+                    "markDefs": []
+                }
+            ],
+            "history": [],
+            "socialLinks": []
+        },
+        {
+            "_id": "homepage",
+            "_type": "homepage",
+            "heroTitle": "Güvenle Taşıyın, Standartlara Uyun.",
+            "heroSubtitle": "Kocaeli'nin öncü tanker muayene ve sertifikalandırma merkezi olarak, ADR standartlarında uzman kadromuzla yanınızdayız.",
+            "heroSlides": [
+                {
+                    "title": "Güvenle Taşıyın, Standartlara Uyun.",
+                    "subtitle": "Uğurlu Tanker, ADR muayene ve sertifikalandırmada güvenilir çözüm ortağınız."
+                }
+            ],
+            "stats": [
+                {
+                    "label": "Düzenlenen Belge",
+                    "value": "10.000+"
+                },
+                {
+                    "label": "Müşteri Memnuniyeti",
+                    "value": "%100"
+                },
+                {
+                    "label": "Deneyim",
+                    "value": "45+ Yıl"
+                },
+                {
+                    "label": "Uzman Personel",
+                    "value": "10+"
+                }
+            ],
+            "quickActions": [
+                {
+                    "title": "Muayene Randevusu",
+                    "link": "/iletisim",
+                    "icon": "Calendar"
+                },
+                {
+                    "title": "Fiyat Listesi",
+                    "link": "/fiyat-listesi",
+                    "icon": "FileText"
+                }
+            ]
+        },
+        {
+            "_id": "inspectionPage",
+            "_type": "inspectionPage",
+            "heroBadge": "TEKNİK MÜKEMMELİYET",
+            "heroTitle": "Muayene & Servis",
+            "heroSubtitle": "Güvenli taşımacılık için uluslararası standartlarda denetim ve teknik destek sağlıyoruz.",
+            "whyChooseUs": {
+                "title": "Neden Muayene ve Servis Almalısınız?",
+                "description": "Tehlikeli madde taşıyan tankerlerin hem yasal mevzuatlara uyumu hem de can/mal güvenliği için düzenli muayene ve teknik servis hizmeti alması zorunludur.",
+                "points": [
+                    "ADR Standartlarına %100 Uyum",
+                    "Modern Test Ekipmanları",
+                    "Uzman Mühendis Kadrosu",
+                    "Hızlı Raporlama ve Belgelendirme"
+                ]
+            },
+            "requiredDocsSection": {
+                "badge": "BELGELER",
+                "title": "Muayene İçin Gerekli Belgeler ve Evraklar",
+                "content": [
+                    {
+                        "_type": "block",
+                        "style": "normal",
+                        "children": [
+                            {
+                                "_type": "span",
+                                "text": "1. Araç Tescil Belgesi (Ruhsat)\n2. Önceki Muayene Raporları\n3. Tanker Üretici Sertifikası\n4. ADR Uygunluk Belgesi (Varsa)\n5. Şirket Bilgileri ve Vergi Levhası",
+                                "marks": []
+                            }
+                        ],
+                        "markDefs": []
+                    }
+                ]
+            },
+            "features": [
+                {
+                    "icon": "Shield",
+                    "title": "TSE Onaylı",
+                    "description": "TSE tarafından yetkilendirilmiş muayene merkezi.",
+                    "color": "text-primary"
+                }
+            ],
+            "operations": {
+                "badge": "İŞLEMLER",
+                "title": "Neler Yapıyoruz?",
+                "items": []
+            }
+        },
+        {
+            "_id": "priceListPage",
+            "_type": "priceListPage",
+            "badge": "2026 YILI MUAYENE ÜCRETLERİ",
+            "headerTitle": "Fiyat Listesi",
+            "description": "01/01/2026 – 31/12/2026 tarihleri arasında uygulanacak araç ve tank muayene ücretleri, T.C. Ulaştırma ve Altyapı Bakanlığı genelgesine uygun olarak belirlenmiştir."
+        },
+        {
+            "_id": "corporatePage",
+            "_type": "corporatePage",
+            "heroTitle": "Hakkımızda",
+            "heroSubtitle": "1977den günümüze, tanker sektöründe güvenin adı.",
+            "mainHistoryTitle": "Tarihçemiz",
+            "missionTitle": "MİSYONUMUZ",
+            "missionContent": "Uluslararası standartlara ve TSE ADR standartlarına uygun ekipman ve yönetim sistemlerini kullanarak müşteri memnuniyetini ön planda tutmak.",
+            "visionTitle": "VİZYONUMUZ",
+            "visionContent": "Nitelikli insan kaynaklarımızla sektörde öncü kuruluş olma rolünü devam ettirmek.",
+            "coreValues": [],
+            "mainHistoryContent": []
+        }
+    ],
+    "services": [
+        {
+            "_id": "service-periyodik-muayene",
+            "_type": "service",
+            "title": "Periyodik Muayene",
+            "slug": {
+                "_type": "slug",
+                "current": "periyodik-muayene"
+            },
+            "iconName": "Shield",
+            "shortDescription": "Tehlikeli madde taşıyan araçların periyodik teknik denetimleri.",
+            "description": [
+                {
+                    "_type": "block",
+                    "style": "normal",
+                    "children": [
+                        {
+                            "_type": "span",
+                            "text": "Uluslararası standartlarda tanker muayene hizmeti.",
+                            "marks": []
+                        }
+                    ],
+                    "markDefs": []
+                }
+            ],
+            "features": [
+                "TSE Standartları",
+                "Hızlı Onay",
+                "Uzman Kadro"
+            ],
+            "requiredDocuments": [
+                "Ruhsat",
+                "Eski Raporlar"
+            ]
+        },
+        {
+            "_id": "service-sizdirmazlik",
+            "_type": "service",
+            "title": "Sızdırmazlık Testi",
+            "slug": {
+                "_type": "slug",
+                "current": "sizdirmazlik-testi"
+            },
+            "iconName": "Droplets",
+            "shortDescription": "Tank ve tesisat sızdırmazlığının yüksek basınçlı test ekipmanları ile kontrolü.",
+            "description": [
+                {
+                    "_type": "block",
+                    "style": "normal",
+                    "children": [
+                        {
+                            "_type": "span",
+                            "text": "Basınçlı ve vakumlu sızdırmazlık kontrolleri.",
+                            "marks": []
+                        }
+                    ],
+                    "markDefs": []
+                }
+            ],
+            "features": [
+                "Yüksek Basınç Testi",
+                "Sertifikalı Raporlama"
+            ],
+            "requiredDocuments": [
+                "Tank Sertifikası"
+            ]
+        }
+    ]
+}
