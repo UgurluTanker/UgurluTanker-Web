@@ -1,6 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
-import { Mail, MapPin, Phone, ShieldCheck, Facebook, Instagram, Linkedin, MessageCircle } from "lucide-react"
+import { Mail, MapPin, ShieldCheck, Facebook, Instagram, Linkedin, MessageCircle } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
 import { SiteSettings, Service } from "@/types/sanity"
 
