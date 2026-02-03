@@ -48,6 +48,7 @@ export interface SiteSettings {
     mission?: string;
     vision?: string;
     history?: string;
+    authorizationCertificate?: Image;
 }
 
 export interface HomepageData {
@@ -157,4 +158,5 @@ export interface PriceListPageData {
     badge: string;
     headerTitle: string;
     description: string;
+    pdfUrl?: string;
 }

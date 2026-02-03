@@ -167,5 +167,12 @@ export const siteSettingsType = defineType({
             of: [{ type: 'block' }],
             group: 'corporate',
         }),
+        defineField({
+            name: 'authorizationCertificate',
+            title: 'Yetki Belgesi',
+            type: 'image',
+            group: 'corporate',
+            options: { hotspot: true },
+        }),
     ],
 })

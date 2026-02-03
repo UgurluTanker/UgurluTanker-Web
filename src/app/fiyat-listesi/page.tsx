@@ -47,9 +47,23 @@ export default async function PriceListPage() {
                     <h1 className="text-4xl md:text-6xl font-black text-white mb-6">
                         {pageData?.headerTitle || "Fiyat Listesi"}
                     </h1>
-                    <p className="text-lg text-slate-400 max-w-2xl mx-auto font-medium">
+                    <p className="text-lg text-slate-400 max-w-2xl mx-auto font-medium mb-8">
                         {pageData?.description || "01/01/2026 – 31/12/2026 tarihleri arasında uygulanacak araç ve tank muayene ücretleri, T.C. Ulaştırma ve Altyapı Bakanlığı genelgesine uygun olarak belirlenmiştir."}
                     </p>
+
+                    {pageData?.pdfUrl && (
+                        <div className="flex justify-center">
+                            <a
+                                href={pageData.pdfUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 text-white rounded-full transition-all border border-white/20 hover:border-white/40 font-bold group"
+                            >
+                                <Info className="w-5 h-5 text-primary group-hover:scale-110 transition-transform" />
+                                <span>Resmi Liste (PDF)</span>
+                            </a>
+                        </div>
+                    )}
                 </div>
                 {/* Visual curve decoration */}
                 <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0]">

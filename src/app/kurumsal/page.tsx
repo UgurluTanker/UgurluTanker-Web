@@ -134,6 +134,28 @@ export default async function CorporatePage() {
                                 </div>
                             </div>
                         )}
+                        {/* Authorization Certificate Section */}
+                        {settings?.authorizationCertificate && (
+                            <div className="mt-24 pt-24 border-t border-slate-100">
+                                <div className="text-center mb-16 space-y-4">
+                                    <Badge className="bg-primary/10 text-primary border-primary/20 mb-4 px-4 py-1">YASAL ZORUNLULUK</Badge>
+                                    <h2 className="text-3xl md:text-5xl font-black text-slate-900">Yasal Yetki Belgelerimiz</h2>
+                                    <p className="text-slate-500 max-w-2xl mx-auto font-medium">Hizmetlerimizin T.C. Ulaştırma ve Altyapı Bakanlığı tarafından yetkilendirilmiş olduğunu kanıtlayan resmi belgelerimiz.</p>
+                                </div>
+                                <div className="max-w-4xl mx-auto">
+                                    <div className="relative group rounded-[2rem] overflow-hidden border-8 border-slate-50 shadow-2xl hover:shadow-primary/10 transition-all duration-500">
+                                        <Image
+                                            src={urlFor(settings.authorizationCertificate).url()}
+                                            alt="Uğurlu Tanker Yetki Belgesi"
+                                            width={1200}
+                                            height={1600}
+                                            className="w-full h-auto object-contain transition-transform duration-700 group-hover:scale-[1.02]"
+                                        />
+                                        <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </section>

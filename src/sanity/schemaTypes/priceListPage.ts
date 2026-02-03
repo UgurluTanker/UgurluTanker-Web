@@ -24,5 +24,13 @@ export const priceListPageType = defineType({
             rows: 4,
             initialValue: '01/01/2026 – 31/12/2026 tarihleri arasında uygulanacak araç ve tank muayene ücretleri, T.C. Ulaştırma ve Altyapı Bakanlığı genelgesine uygun olarak belirlenmiştir.',
         }),
+        defineField({
+            name: 'pdfFile',
+            title: 'Fiyat Listesi Dosyası (PDF)',
+            type: 'file',
+            options: {
+                accept: '.pdf'
+            }
+        }),
     ],
 })

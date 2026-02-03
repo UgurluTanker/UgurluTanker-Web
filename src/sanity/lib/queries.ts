@@ -43,7 +43,8 @@ export const SITE_SETTINGS_QUERY = groq`*[_type == "siteSettings"][0]{
   aboutUs,
   mission,
   vision,
-  history
+  history,
+  authorizationCertificate
 }`
 
 export const SERVICES_QUERY = groq`*[_type == "service"] | order(title asc) {
@@ -148,16 +149,17 @@ export const PRICE_LIST_QUERY = groq`*[_type == "priceItem"] | order(order asc, 
 export const PRICE_LIST_PAGE_QUERY = groq`*[_type == "priceListPage"][0]{
   badge,
   headerTitle,
-  description
+  description,
+  "pdfUrl": pdfFile.asset->url
 }`
 
-export const REGULATION_QUERY = groq`*[_type == "regulation"] | order(order asc) {
+export const REGULATION_QUERY = groq`* [_type == "regulation"] | order(order asc) {
   title,
-  category,
-  content[] {
+    category,
+    content[] {
     itemTitle,
-    itemDescription,
-    isCritical
+      itemDescription,
+      isCritical
   },
   order
-}`
+} `
