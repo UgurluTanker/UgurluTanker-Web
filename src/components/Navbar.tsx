@@ -26,6 +26,7 @@ const navLinks = [
         subItems: [
             { name: "Hakkımızda", href: "/kurumsal#hakkimizda" },
             { name: "Misyon & Vizyon", href: "/kurumsal#misyon-vizyon" },
+            { name: "Yetkinlik Belgelerimiz", href: "/kurumsal/yetkinlik-belgelerimiz" },
         ]
     },
     { name: "Hizmetlerimiz", href: "/hizmetlerimiz" },
